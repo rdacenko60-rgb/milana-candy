@@ -27,7 +27,7 @@
   /* ---------- ТОРТ ---------- */
   #cakeScreen {
     position: absolute; z-index: 2;
-    text-align:center; cursor:pointer; user-select:none;
+    text-align:center; user-select:none;
     transition: opacity .6s ease, transform .6s ease;
   }
   #cakeScreen.hide { opacity:0; transform:scale(.8); pointer-events:none; }
@@ -50,17 +50,20 @@
   .frosting.top { bottom:118px; width:190px; }
   .frosting.top2 { bottom:164px; width:150px; height:16px; }
 
-  /* --- СВЕЧИ --- */
+  /* --- СВЕЧИ (ТЕПЕРЬ КЛИКАБЕЛЬНЫЕ) --- */
   .candle {
     position:absolute; 
-    bottom: 172px; /* Чуть ниже, чтобы втыкались в крем */
+    bottom: 172px; 
     width:12px; height:38px; border-radius:6px;
     background:repeating-linear-gradient(45deg,#2d6a4f,#2d6a4f 4px,#a7d8b5 4px,#a7d8b5 8px);
-    z-index: 3;
+    z-index: 3; cursor: pointer;
   }
   .candle.left { left: 35px; }
   .candle.right { right: 35px; }
   .candle.center { left: 50%; transform: translateX(-50%); }
+  
+  /* Свеча потушена */
+  .candle.extinguished { cursor: default; }
 
   .flame {
     position:absolute; top:-16px; left:50%; transform:translateX(-50%);
@@ -68,13 +71,33 @@
     background:radial-gradient(circle at 50% 70%,#fff3b0,#ffb703,#fb8500);
     animation: flicker .4s infinite alternate;
     box-shadow:0 0 15px #ffb703;
+    transition: opacity 0.3s ease;
   }
   @keyframes flicker { from{transform:translateX(-50%) scale(1)} to{transform:translateX(-50%) scale(1.15)} }
 
+  /* Потухание (анимация огонька) */
+  .flame.off { opacity: 0; animation: none; }
+
+  /* Дымок */
+  .smoke {
+    position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(200, 200, 200, 0.8);
+    opacity: 0; pointer-events: none; z-index: 4;
+  }
+  .smoke.animate {
+    animation: puff 1s ease-out forwards;
+  }
+  @keyframes puff {
+    0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -30px) scale(3); }
+  }
+
   .hint {
     margin-top:26px; color:#2d6a4f; font-weight:700; font-size:18px;
-    animation: pulse 1.6s infinite;
+    transition: opacity 0.3s;
   }
+  .hint span { animation: pulse 1.6s infinite; display: inline-block; }
   @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
 
   /* ---------- ПОЗДРАВЛЕНИЕ ---------- */
@@ -115,9 +138,10 @@
 </head>
 <body>
   
-  <div class="hearts" id="hearts"></div>
+  <!-- Салютный слой (сзади торта, но спереди фона) -->
+  <div class="hearts" id="hearts" style="z-index: 5; opacity: 0; pointer-events: none;"></div>
 
-  <div id="cakeScreen" onclick="openGift()">
+  <div id="cakeScreen">
     <div class="cake-wrap">
       <div class="cake">
         <div class="layer layer1"></div>
@@ -127,13 +151,21 @@
         <div class="frosting top"></div>
         <div class="frosting top2"></div>
         
-        <!-- Вишню убрали, оставили только 3 свечи -->
-        <div class="candle left"><div class="flame"></div></div>
-        <div class="candle right"><div class="flame"></div></div>
-        <div class="candle center"><div class="flame"></div></div>
+        <!-- Свечи с onclick и дымком -->
+        <div class="candle left" onclick="blowCandle(this)">
+          <div class="flame"></div><div class="smoke"></div>
+        </div>
+        <div class="candle center" onclick="blowCandle(this)">
+          <div class="flame"></div><div class="smoke"></div>
+        </div>
+        <div class="candle right" onclick="blowCandle(this)">
+          <div class="flame"></div><div class="smoke"></div>
+        </div>
       </div>
     </div>
-    <div class="hint">Нажми на торт 🎂</div>
+    <div class="hint" id="hintText">
+      <span>Задуй все свечи 🕯️</span>
+    </div>
   </div>
 
   <div id="mainScreen">
@@ -145,43 +177,122 @@
       <div class="candy">🍬🍭🍬</div>
       <p>Моя любимая <b>Конфетка</b>, ты — самое сладкое, что случилось в моей жизни.</p>
       <p>14 — это круто: впереди столько всего. Пусть каждый день будет таким же ярким и вкусным, как ты. Спасибо, что ты рядом.</p>
-      <button onclick="showSecret()">Нажми на меня 🎁</button>
-      <div id="secret">Ты — моя самая любимая конфетка на свете. Люблю тебя! ❤️</div>
+      
+      <!-- Кнопка с салютом -->
+      <button id="loveBtn" onclick="triggerLove()">Нажми на меня 🎁</button>
+      
+      <div id="secret">
+        Сделай скриншот этого экрана и покажи мне, я дам за это что-то вкусненькое 🍫😉
+      </div>
     </div>
   </div>
 
 <script>
+  let candlesBlown = 0;
   let opened = false;
+  let loveTriggered = false;
+
+  // 1. Логика задувания свечей
+  function blowCandle(el) {
+    if (el.classList.contains('extinguished')) return; // уже потушена
+    
+    el.classList.add('extinguished');
+    
+    // Тушим огонек
+    const flame = el.querySelector('.flame');
+    flame.classList.add('off');
+    
+    // Пускаем дымок
+    const smoke = el.querySelector('.smoke');
+    smoke.classList.add('animate');
+    
+    candlesBlown++;
+    
+    // Меняем текст подсказки
+    const hint = document.getElementById('hintText');
+    if (candlesBlown === 1) hint.innerHTML = '<span>Осталось две свечи 🕯️🕯️</span>';
+    if (candlesBlown === 2) hint.innerHTML = '<span>Осталась одна свеча 🕯️</span>';
+    
+    // Если все потушены — открываем окно
+    if (candlesBlown === 3) {
+      hint.innerHTML = '';
+      setTimeout(openGift, 600); // Небольшая пауза, чтобы дымок рассеялся
+    }
+  }
+
+  // 2. Открытие поздравления
   function openGift(){
     if(opened) return;
     opened = true;
+    
     document.getElementById('cakeScreen').classList.add('hide');
-    document.getElementById('hearts').classList.add('hide');
     setTimeout(()=>{
       document.getElementById('mainScreen').classList.add('show');
     }, 400);
   }
 
-  function showSecret(){
-    document.getElementById('secret').style.display='block';
+  // 3. Салют и секретное сообщение
+  function triggerLove() {
+    if (loveTriggered) return; // Срабатывает только раз
+    loveTriggered = true;
+
+    // Меняем кнопку на текст
+    const btn = document.getElementById('loveBtn');
+    btn.style.display = 'none';
+    document.getElementById('secret').style.display = 'block';
+
+    // Запускаем салют из центра
+    const hearts = document.getElementById('hearts');
+    hearts.style.opacity = '1'; // Показываем слой
+    const emojis = ['💚','🍬','❤️','🍭','💕','🎂','🌿'];
+
+    for (let i = 0; i < 60; i++) {
+      setTimeout(() => {
+        const s = document.createElement('span');
+        s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        s.style.left = '50vw';
+        s.style.top = '50vh';
+        
+        // Рандомная скорость и направление
+        s.style.animation = `fall ${1 + Math.random()*2}s ease-out forwards`;
+        
+        // Немного рандомизируем позицию старта, чтобы не летели одной точкой
+        s.style.transform = `translate(${(Math.random()-0.5)*100}px, ${(Math.random()-0.5)*100}px)`;
+        
+        // Через 2 секунды удаляем
+        setTimeout(() => s.remove(), 2000);
+        
+        hearts.appendChild(s);
+      }, i * 30); // Вылетают с задержкой друг за другом
+    }
+
+    // Эффект "взрыва" - быстро возвращаем салют вверх экрана
+    const originalFall = hearts.querySelectorAll('span');
+    originalFall.forEach(s => {
+        s.style.animation = `fall 1.5s ease-out forwards`;
+        s.style.top = '-10vh';
+    });
   }
 
-  const hearts = document.getElementById('hearts');
-  const emojis = ['💚','🍬','❤️','🍭','💕','🎂','🌿'];
+  // Фоновый дождик (работает только на экране торта)
+  const bgHearts = document.getElementById('hearts');
+  const bgEmojis = ['💚','🍬','❤️','🍭','💕','🎂','🌿'];
   
-  function spawn(){
-    if(opened) return; 
+  function spawnBg(){
+    if(opened || loveTriggered) return; // На экране с поздравлением не спавним
     const s = document.createElement('span');
-    s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    s.textContent = bgEmojis[Math.floor(Math.random()*bgEmojis.length)];
     s.style.left = Math.random()*100 + 'vw';
-    s.style.animationDuration = (5 + Math.random()*7) + 's';
+    s.style.top = '-20px';
+    s.style.animation = `fall ${5 + Math.random()*7}s linear infinite`;
     s.style.animationDelay = '0s';
-    hearts.appendChild(s);
-    setTimeout(()=>s.remove(), 13000);
+    bgHearts.appendChild(s);
+    setTimeout(()=>s.remove(), 12000);
   }
   
-  setInterval(spawn, 900);
-  for(let i=0;i<10;i++) setTimeout(spawn, i * 200);
+  // Немного эмодзи для фона
+  for(let i=0;i<8;i++) setTimeout(spawnBg, i * 300);
+  
 </script>
 </body>
 </html>
