@@ -36,7 +36,7 @@
 
   .cake { position:relative; width:260px; height:260px; margin:0 auto; }
   
-  /* Слои торта с тенями */
+  /* Слои торта */
   .layer { 
     position:absolute; left:50%; transform:translateX(-50%); border-radius:16px; 
     box-shadow: 0 8px 15px rgba(0,0,0,0.08), inset 0 -6px 10px rgba(0,0,0,0.05);
@@ -70,7 +70,7 @@
   
   .drip1 { left: 10%; } .drip2 { left: 50%; } .drip3 { left: 85%; }
   .drip4 { left: 20%; } .drip5 { left: 60%; } .drip6 { left: 90%; }
-  .drip7 { left: 15%; } .drip8 { left: 80%; }
+  .drip7 { left: 20%; } .drip8 { left: 80%; } /* Вот эти два бугорка, куда встанут свечи */
 
   /* Цветная посыпка (статичная на торте) */
   .sprinkle {
@@ -85,32 +85,17 @@
   .s7 { background:#118ab2; bottom:155px; left:40%; }
   .s8 { background:#ef476f; bottom:165px; left:75%; transform:rotate(20deg); }
 
-  /* --- НОВАЯ ВЕРХУШКА: Маленькие вишенки в ряд --- */
-  .cherry-row {
-    position: absolute;
-    top: -10px; /* На самом верху розового слоя */
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 12px; /* Расстояние между вишнями */
-    z-index: 4;
-  }
-
-  .cherry {
-    width: 14px; height: 14px; border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ff5c8a, #c9184a);
-    box-shadow: 0 2px 4px rgba(201,24,74,.5);
-  }
-
-  /* --- СВЕЧА ПО ЦЕНТРУ --- */
+  /* --- ДВЕ СВЕЧИ НА БУГОРКАХ --- */
   .candle {
     position:absolute; 
-    bottom: 175px; left: 50%; transform: translateX(-50%);
+    bottom: 150px; /* Ставим ровно на верхний слой (где бугорки) */
     width:14px; height:44px; border-radius:7px;
     background:repeating-linear-gradient(45deg,#2d6a4f,#2d6a4f 4px,#a7d8b5 4px,#a7d8b5 8px);
     z-index: 10; cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   }
+  .candle.left { left: 35px; }   /* Левая свеча на бугорке */
+  .candle.right { right: 35px; } /* Правая свеча на бугорке */
   .candle.extinguished { cursor: default; }
 
   .flame {
@@ -164,7 +149,6 @@
   p { color:#555; line-height:1.6; font-size:16px; margin-bottom:12px; }
   .candy { font-size:32px; margin:8px 0; letter-spacing:6px; }
 
-  /* Таймеры */
   .timer-box {
     background: #e8f5e9; border-radius: 16px; padding: 15px;
     margin: 18px 0; color: #2d6a4f; font-size: 15px; font-weight: 600;
@@ -183,7 +167,6 @@
   }
   button:hover { transform:scale(1.06); }
 
-  /* Скрытые элементы */
   #heartTriggerBox {
     display: none; margin-top: 15px; cursor: pointer;
     animation: showUp 0.5s ease forwards;
@@ -217,41 +200,32 @@
   <div id="cakeScreen">
     <div class="cake-wrap">
       <div class="cake">
-        <!-- Нижний слой -->
         <div class="layer layer1">
           <div class="drip drip1"></div><div class="drip drip2"></div><div class="drip drip3"></div>
           <div class="sprinkle s1"></div><div class="sprinkle s2"></div><div class="sprinkle s3"></div>
         </div>
         
-        <!-- Средний слой -->
         <div class="layer layer2">
           <div class="drip drip4"></div><div class="drip drip5"></div><div class="drip drip6"></div>
           <div class="sprinkle s4"></div><div class="sprinkle s5"></div><div class="sprinkle s6"></div>
         </div>
         
-        <!-- Верхний слой -->
         <div class="layer layer3">
           <div class="drip drip7"></div><div class="drip drip8"></div>
           <div class="sprinkle s7"></div><div class="sprinkle s8"></div>
-          
-          <!-- Ряд мелких вишенок -->
-          <div class="cherry-row">
-            <div class="cherry"></div>
-            <div class="cherry"></div>
-            <div class="cherry"></div>
-            <div class="cherry"></div>
-            <div class="cherry"></div>
-          </div>
         </div>
 
-        <!-- Свеча по центру -->
-        <div class="candle center" onclick="blowCandle(this)">
+        <!-- Две свечи на бугорках -->
+        <div class="candle left" onclick="blowCandle(this)">
+          <div class="flame"></div><div class="smoke"></div>
+        </div>
+        <div class="candle right" onclick="blowCandle(this)">
           <div class="flame"></div><div class="smoke"></div>
         </div>
       </div>
     </div>
     <div class="hint" id="hintText">
-      <span>Задуй свечу 🕯️</span>
+      <span>Задуй свечи 🕯️🕯️</span>
     </div>
   </div>
 
@@ -287,6 +261,7 @@
   </div>
 
 <script>
+  let candlesBlown = 0;
   let opened = false;
   let loveTriggered = false;
 
@@ -300,8 +275,15 @@
     const smoke = el.querySelector('.smoke');
     smoke.classList.add('animate');
     
-    document.getElementById('hintText').innerHTML = '';
-    setTimeout(openGift, 600);
+    candlesBlown++;
+    
+    const hint = document.getElementById('hintText');
+    if (candlesBlown === 1) hint.innerHTML = '<span>Осталась одна свеча 🕯️</span>';
+    
+    if (candlesBlown === 2) {
+      hint.innerHTML = '';
+      setTimeout(openGift, 600);
+    }
   }
 
   function openGift(){
@@ -360,7 +342,7 @@
 
     const hearts = document.getElementById('hearts');
     hearts.style.opacity = '1';
-    const emojis = ['💚','🍬','❤️','🍭','💕','🎂','🌿'];
+    const emojis = ['💚','🍬','❤️','🍭','💕','🎂'];
 
     for (let i = 0; i < 70; i++) {
       setTimeout(() => {
@@ -397,8 +379,7 @@
     }
   });
 
-  // === 5. Фоновый дождик ===
-  // ВНИМАНИЕ: В этом массиве теперь ТОЛЬКО эмодзи, никаких точек.
+  // === Фоновый дождик (ТОЛЬКО эмодзи, без посыпки) ===
   const bgHearts = document.getElementById('hearts');
   const bgEmojis = ['💚','🍬','❤️','🍭','💕','🎂']; 
   
