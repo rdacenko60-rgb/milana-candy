@@ -34,10 +34,9 @@
   .cake-wrap { position:relative; display:inline-block; animation: float 4s ease-in-out infinite; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
 
-  /* Увеличили контейнер для свечи и вишен */
   .cake { position:relative; width:260px; height:260px; margin:0 auto; }
   
-  /* Слои торта с тенями (объем) */
+  /* Слои торта с тенями */
   .layer { 
     position:absolute; left:50%; transform:translateX(-50%); border-radius:16px; 
     box-shadow: 0 8px 15px rgba(0,0,0,0.08), inset 0 -6px 10px rgba(0,0,0,0.05);
@@ -58,9 +57,10 @@
     z-index: 3;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    display: flex; /* Вот тут магия, чтобы ровно поставить розочки и вишни */
-    justify-content: space-around;
+    display: flex; 
+    justify-content: space-between; /* Раздвигаем по краям */
     align-items: flex-start;
+    padding: 0 10px; /* Отступы от краев */
   }
 
   /* Капли глазури */
@@ -76,7 +76,7 @@
   .drip4 { left: 20%; } .drip5 { left: 60%; } .drip6 { left: 90%; }
   .drip7 { left: 15%; } .drip8 { left: 80%; }
 
-  /* Цветная посыпка */
+  /* Цветная посыпка (статичная) */
   .sprinkle {
     position:absolute; width:10px; height:5px; border-radius:3px; transform:rotate(30deg);
   }
@@ -92,48 +92,49 @@
   /* Группа: Розочка + Вишенка */
   .cherry-group {
     display: flex; flex-direction: column; align-items: center;
-    position: relative; top: -15px; /* Приподнимаем над верхним краем */
+    position: relative; top: -15px; 
     z-index: 4;
   }
 
   .rosette {
-    width: 42px; height: 42px; background: #fff; border-radius: 50%;
+    width: 36px; height: 36px; /* Уменьшили размер */
+    background: #fff; border-radius: 50%;
     box-shadow: inset -4px -4px 8px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.08);
     display: flex; justify-content: center; align-items: center;
   }
 
   .cherry {
-    width: 26px; height: 26px; border-radius:50%;
+    width: 22px; height: 22px; border-radius:50%;
     background:radial-gradient(circle at 30% 30%, #ff5c8a, #c9184a);
-    box-shadow: 0 4px 8px rgba(201,24,74,.5);
-    position: absolute; top: -10px; /* Вишенка сидит на розочке */
+    box-shadow: 0 3px 6px rgba(201,24,74,.5);
+    position: absolute; top: -8px;
   }
 
-  /* --- СВЕЧА ПО ЦЕНТРУ (между вишнями) --- */
+  /* --- СВЕЧА ПО ЦЕНТРУ --- */
   .candle {
     position:absolute; 
     bottom: 175px; left: 50%; transform: translateX(-50%);
-    width:16px; height:48px; border-radius:8px;
+    width:14px; height:44px; border-radius:7px;
     background:repeating-linear-gradient(45deg,#2d6a4f,#2d6a4f 4px,#a7d8b5 4px,#a7d8b5 8px);
     z-index: 10; cursor: pointer;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   }
   .candle.extinguished { cursor: default; }
 
   .flame {
-    position:absolute; top:-22px; left:50%; transform:translateX(-50%);
-    width:18px; height:24px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+    position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+    width:16px; height:22px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
     background:radial-gradient(circle at 50% 70%,#fff3b0,#ffb703,#fb8500);
     animation: flicker .4s infinite alternate;
-    box-shadow:0 0 25px #ffb703;
+    box-shadow:0 0 20px #ffb703;
     transition: opacity 0.3s ease;
   }
   @keyframes flicker { from{transform:translateX(-50%) scale(1)} to{transform:translateX(-50%) scale(1.15)} }
   .flame.off { opacity: 0; animation: none; }
 
   .smoke {
-    position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
-    width: 8px; height: 8px; border-radius: 50%;
+    position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+    width: 6px; height: 6px; border-radius: 50%;
     background: rgba(200, 200, 200, 0.8);
     opacity: 0; pointer-events: none; z-index: 11;
   }
@@ -236,23 +237,21 @@
           <div class="sprinkle s4"></div><div class="sprinkle s5"></div><div class="sprinkle s6"></div>
         </div>
         
-        <!-- Верхний слой с розовым кремом, розочками и вишнями -->
+        <!-- Верхний слой -->
         <div class="layer layer3">
           <div class="drip drip7"></div><div class="drip drip8"></div>
           <div class="sprinkle s7"></div><div class="sprinkle s8"></div>
           
-          <!-- Группа 1: Левая вишня -->
           <div class="cherry-group">
             <div class="rosette"><div class="cherry"></div></div>
           </div>
           
-          <!-- Группа 2: Правая вишня -->
           <div class="cherry-group">
             <div class="rosette"><div class="cherry"></div></div>
           </div>
         </div>
 
-        <!-- Свеча по центру (рисуется поверх торта) -->
+        <!-- Свеча (по центру) -->
         <div class="candle center" onclick="blowCandle(this)">
           <div class="flame"></div><div class="smoke"></div>
         </div>
@@ -273,7 +272,6 @@
       <p>Моя любимая <b>Бусинка</b>, ты — самое сладкое, что случилось в моей жизни.</p>
       <p>14 — это круто: впереди столько всего. Пусть каждый день будет таким же ярким и вкусным, как ты. Спасибо, что ты рядом.</p>
       
-      <!-- Таймеры -->
       <div class="timer-box">
         <div>Мы знакомы уже:</div>
         <div class="time" id="timerDate1" style="margin-bottom: 10px;">Загрузка...</div>
@@ -284,7 +282,6 @@
 
       <button id="loveBtn" onclick="triggerLove()">Нажми на меня 🎁</button>
       
-      <!-- Сердце-взрыватель -->
       <div id="heartTriggerBox" onclick="explodeHeart()">
         <div class="big-heart">❤️</div>
         <div style="color: #d6336c; font-size: 14px; font-weight: 600; margin-top: 5px;">(нажми на сердце)</div>
@@ -297,7 +294,6 @@
   </div>
 
 <script>
-  // === 1. Логика задувания свечи ===
   let opened = false;
   let loveTriggered = false;
 
@@ -326,7 +322,6 @@
     }, 400);
   }
 
-  // === 2. Таймеры ===
   function startTimer() {
     const dateMeet = new Date(2025, 3, 24, 0, 0, 0); 
     const dateDating = new Date(2025, 1, 12, 0, 0, 0); 
@@ -358,7 +353,6 @@
     }, 1000);
   }
 
-  // === 3. Секретная кнопка и Сердце ===
   function triggerLove() {
     if (loveTriggered) return;
     loveTriggered = true;
@@ -401,7 +395,6 @@
     }
   }
 
-  // === 4. Пасхалка ===
   let eggClicks = 0;
   document.getElementById('easterEgg').addEventListener('click', () => {
     eggClicks++;
@@ -411,9 +404,9 @@
     }
   });
 
-  // === 5. Фоновый дождик ===
+  // === 5. Фоновый дождик (ТОЛЬКО сердечки и конфеты, без посыпки!) ===
   const bgHearts = document.getElementById('hearts');
-  const bgEmojis = ['💚','🍬','❤️','🍭','💕','🎂','🌿'];
+  const bgEmojis = ['💚','🍬','❤️','🍭','💕','🎂']; // Убрали летающую посыпку
   
   function spawnBg(){
     if(opened) return;
