@@ -113,7 +113,7 @@
   p { color:#555; line-height:1.6; font-size:16px; margin-bottom:12px; }
   .candy { font-size:32px; margin:8px 0; letter-spacing:6px; }
 
-  /* Таймер */
+  /* Таймеры */
   .timer-box {
     background: #e8f5e9; border-radius: 16px; padding: 15px;
     margin: 18px 0; color: #2d6a4f; font-size: 15px; font-weight: 600;
@@ -199,10 +199,13 @@
       <p>Моя любимая <b>Конфетка</b>, ты — самое сладкое, что случилось в моей жизни.</p>
       <p>14 — это круто: впереди столько всего. Пусть каждый день будет таким же ярким и вкусным, как ты. Спасибо, что ты рядом.</p>
       
-      <!-- Таймер -->
+      <!-- Таймеры -->
       <div class="timer-box">
-        <div id="timerTitle">Мы вместе уже:</div>
-        <div class="time" id="timerDisplay">Загрузка...</div>
+        <div>Общаемся уже:</div>
+        <div class="time" id="timerDate1" style="margin-bottom: 10px;">Загрузка...</div>
+        
+        <div style="border-top: 1px dashed #b7e4c7; padding-top: 10px;">Вместе уже:</div>
+        <div class="time" id="timerDate2">Загрузка...</div>
       </div>
 
       <button id="loveBtn" onclick="triggerLove()">Нажми на меня 🎁</button>
@@ -214,7 +217,7 @@
       </div>
 
       <div id="secretMessage">
-      С днем рождения конфеткаааа, люблю тебя и это не единственный подарок на сегодня.
+        С днем рождения конфеткаааа, люблю тебя и это не единственный подарок на сегодня.
       </div>
     </div>
   </div>
@@ -258,32 +261,40 @@
     }, 400);
   }
 
-  // === 2. Таймер ===
+  // === 2. Таймеры (две даты) ===
   function startTimer() {
-    // ВНИМАНИЕ: Вставь сюда дату вашего знакомства (Год, Месяц-1, День, Часы, Минуты)
-    // Пример: 2023 год, 14 сентября: new Date(2023, 8, 14, 0, 0, 0)
+    // ДАТА 1: Начали общаться (24 апреля 2025)
+    const dateMeet = new Date(2025, 3, 24, 0, 0, 0); 
     
-    // Я поставил дефолтную дату, чтобы ты увидел, как работает. ЗАМЕНИ ЕЁ!
-    const startDate = new Date(2024, 0, 1, 0, 0, 0); 
-    
-    // Если хочешь обратный отсчет до ДР (28 ноября 2026), раскомментируй строку ниже и закомментируй верхнюю:
-    // const targetDate = new Date(2026, 10, 28, 0, 0, 0); 
+    // ДАТА 2: Начали встречаться (12 февраля 2025)
+    const dateDating = new Date(2025, 1, 12, 0, 0, 0); 
 
     setInterval(() => {
       const now = new Date().getTime();
       
-      // Для прямого отсчета (сколько вместе):
-      const distance = now - startDate.getTime();
-      
-      // Для обратного (до ДР): const distance = targetDate.getTime() - now;
+      // Считаем для общения
+      const distMeet = now - dateMeet.getTime();
+      if (distMeet >= 0) {
+        const d1 = Math.floor(distMeet / (1000 * 60 * 60 * 24));
+        const h1 = Math.floor((distMeet % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m1 = Math.floor((distMeet % (1000 * 60 * 60)) / (1000 * 60));
+        const s1 = Math.floor((distMeet % (1000 * 60)) / 1000);
+        document.getElementById("timerDate1").innerText = `${d1} дн. ${h1} ч. ${m1} мин. ${s1} сек.`;
+      } else {
+        document.getElementById("timerDate1").innerText = "Скоро начнется!";
+      }
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      document.getElementById("timerDisplay").innerText = 
-        `${days} дн. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
+      // Считаем для отношений
+      const distDating = now - dateDating.getTime();
+      if (distDating >= 0) {
+        const d2 = Math.floor(distDating / (1000 * 60 * 60 * 24));
+        const h2 = Math.floor((distDating % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m2 = Math.floor((distDating % (1000 * 60 * 60)) / (1000 * 60));
+        const s2 = Math.floor((distDating % (1000 * 60)) / 1000);
+        document.getElementById("timerDate2").innerText = `${d2} дн. ${h2} ч. ${m2} мин. ${s2} сек.`;
+      } else {
+        document.getElementById("timerDate2").innerText = "Скоро начнется!";
+      }
     }, 1000);
   }
 
