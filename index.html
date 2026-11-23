@@ -20,7 +20,6 @@
     pointer-events:none; overflow:hidden; z-index:1;
     transition: opacity 0.5s ease;
   }
-  .hearts.hide { opacity: 0; }
   .hearts span { position:absolute; font-size:22px; animation: fall linear infinite; opacity:.7; }
   @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
@@ -50,7 +49,7 @@
   .frosting.top { bottom:118px; width:190px; }
   .frosting.top2 { bottom:164px; width:150px; height:16px; }
 
-  /* --- СВЕЧИ (ТЕПЕРЬ КЛИКАБЕЛЬНЫЕ) --- */
+  /* --- СВЕЧИ --- */
   .candle {
     position:absolute; 
     bottom: 172px; 
@@ -61,8 +60,6 @@
   .candle.left { left: 35px; }
   .candle.right { right: 35px; }
   .candle.center { left: 50%; transform: translateX(-50%); }
-  
-  /* Свеча потушена */
   .candle.extinguished { cursor: default; }
 
   .flame {
@@ -74,29 +71,21 @@
     transition: opacity 0.3s ease;
   }
   @keyframes flicker { from{transform:translateX(-50%) scale(1)} to{transform:translateX(-50%) scale(1.15)} }
-
-  /* Потухание (анимация огонька) */
   .flame.off { opacity: 0; animation: none; }
 
-  /* Дымок */
   .smoke {
     position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
     width: 6px; height: 6px; border-radius: 50%;
     background: rgba(200, 200, 200, 0.8);
     opacity: 0; pointer-events: none; z-index: 4;
   }
-  .smoke.animate {
-    animation: puff 1s ease-out forwards;
-  }
+  .smoke.animate { animation: puff 1s ease-out forwards; }
   @keyframes puff {
     0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
     100% { opacity: 0; transform: translate(-50%, -30px) scale(3); }
   }
 
-  .hint {
-    margin-top:26px; color:#2d6a4f; font-weight:700; font-size:18px;
-    transition: opacity 0.3s;
-  }
+  .hint { margin-top:26px; color:#2d6a4f; font-weight:700; font-size:18px; transition: opacity 0.3s; }
   .hint span { animation: pulse 1.6s infinite; display: inline-block; }
   @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
 
@@ -123,6 +112,17 @@
   .date { color:#e8590c; font-weight:700; font-size:17px; margin-bottom:18px; }
   p { color:#555; line-height:1.6; font-size:16px; margin-bottom:12px; }
   .candy { font-size:32px; margin:8px 0; letter-spacing:6px; }
+
+  /* Таймер */
+  .timer-box {
+    background: #e8f5e9; border-radius: 16px; padding: 15px;
+    margin: 18px 0; color: #2d6a4f; font-size: 15px; font-weight: 600;
+    border: 1px solid #b7e4c7;
+  }
+  .timer-box .time {
+    font-size: 20px; font-weight: 800; margin-top: 5px;
+    font-family: monospace; letter-spacing: 1px;
+  }
   
   button {
     background: linear-gradient(135deg,#40916c,#2d6a4f);
@@ -131,14 +131,36 @@
     box-shadow:0 8px 20px rgba(45,106,79,0.4); transition:.3s;
   }
   button:hover { transform:scale(1.06); }
-  
-  #secret { display:none; margin-top:20px; color:#2d6a4f; font-size:17px; font-weight:600;
-            background:#e8f5e9; padding:14px; border-radius:16px; }
+
+  /* Скрытые элементы */
+  #heartTriggerBox {
+    display: none; margin-top: 15px; cursor: pointer;
+    animation: showUp 0.5s ease forwards;
+  }
+  #heartTriggerBox .big-heart {
+    font-size: 80px; 
+    animation: heartbeat 1s infinite; 
+    display: inline-block;
+    filter: drop-shadow(0 0 15px rgba(255, 92, 138, 0.6));
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+  }
+  @keyframes showUp { from{opacity:0; transform:scale(0.5)} to{opacity:1; transform:scale(1)} }
+
+  #secretMessage {
+    display:none; margin-top:15px; color:#d6336c; font-size:17px; font-weight:700;
+    background:#fff0f5; padding:18px; border-radius:16px; border: 2px dashed #ffb6c1;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes popIn { from{opacity:0; transform:scale(0.8)} to{opacity:1; transform:scale(1)} }
 </style>
 </head>
 <body>
   
-  <!-- Салютный слой (сзади торта, но спереди фона) -->
   <div class="hearts" id="hearts" style="z-index: 5; opacity: 0; pointer-events: none;"></div>
 
   <div id="cakeScreen">
@@ -151,7 +173,6 @@
         <div class="frosting top"></div>
         <div class="frosting top2"></div>
         
-        <!-- Свечи с onclick и дымком -->
         <div class="candle left" onclick="blowCandle(this)">
           <div class="flame"></div><div class="smoke"></div>
         </div>
@@ -170,59 +191,62 @@
 
   <div id="mainScreen">
     <div class="card">
-      <div class="heart">💚</div>
+      <div class="heart" id="mainHeart">💚</div>
       <h1>С днём рождения, Милана!</h1>
-      <div class="age">Тебе 14 🎉</div>
+      <div class="age" id="easterEgg">Тебе 14 🎉</div>
       <div class="date">28 ноября 🎂</div>
       <div class="candy">🍬🍭🍬</div>
       <p>Моя любимая <b>Конфетка</b>, ты — самое сладкое, что случилось в моей жизни.</p>
       <p>14 — это круто: впереди столько всего. Пусть каждый день будет таким же ярким и вкусным, как ты. Спасибо, что ты рядом.</p>
       
-      <!-- Кнопка с салютом -->
+      <!-- Таймер -->
+      <div class="timer-box">
+        <div id="timerTitle">Мы вместе уже:</div>
+        <div class="time" id="timerDisplay">Загрузка...</div>
+      </div>
+
       <button id="loveBtn" onclick="triggerLove()">Нажми на меня 🎁</button>
       
-      <div id="secret">
-        С днем рождением тебя, ты очень долго ждала этот день и
-       блин ты самое лучшее что случилось в моей жизни.Этот сайт не единственный подарок,у меня есть ещо
-      прикольные подарки. люблю тебя, моя конфетка
+      <!-- Сердце-взрыватель -->
+      <div id="heartTriggerBox" onclick="explodeHeart()">
+        <div class="big-heart">❤️</div>
+        <div style="color: #d6336c; font-size: 14px; font-weight: 600; margin-top: 5px;">(нажми на сердце)</div>
+      </div>
+
+      <div id="secretMessage">
+        Сделай скриншот этого экрана. Покажешь мне — получишь 14 поцелуев 💋😉
       </div>
     </div>
   </div>
 
 <script>
+  // === 1. Логика задувания свечей ===
   let candlesBlown = 0;
   let opened = false;
   let loveTriggered = false;
 
-  // 1. Логика задувания свечей
   function blowCandle(el) {
-    if (el.classList.contains('extinguished')) return; // уже потушена
-    
+    if (el.classList.contains('extinguished')) return;
     el.classList.add('extinguished');
     
-    // Тушим огонек
     const flame = el.querySelector('.flame');
     flame.classList.add('off');
     
-    // Пускаем дымок
     const smoke = el.querySelector('.smoke');
     smoke.classList.add('animate');
     
     candlesBlown++;
     
-    // Меняем текст подсказки
     const hint = document.getElementById('hintText');
     if (candlesBlown === 1) hint.innerHTML = '<span>Осталось две свечи 🕯️🕯️</span>';
     if (candlesBlown === 2) hint.innerHTML = '<span>Осталась одна свеча 🕯️</span>';
     
-    // Если все потушены — открываем окно
     if (candlesBlown === 3) {
       hint.innerHTML = '';
-      setTimeout(openGift, 600); // Небольшая пауза, чтобы дымок рассеялся
+      setTimeout(openGift, 600);
     }
   }
 
-  // 2. Открытие поздравления
   function openGift(){
     if(opened) return;
     opened = true;
@@ -230,58 +254,102 @@
     document.getElementById('cakeScreen').classList.add('hide');
     setTimeout(()=>{
       document.getElementById('mainScreen').classList.add('show');
+      startTimer(); // Запускаем таймер при открытии окна
     }, 400);
   }
 
-  // 3. Салют и секретное сообщение
+  // === 2. Таймер ===
+  function startTimer() {
+    // ВНИМАНИЕ: Вставь сюда дату вашего знакомства (Год, Месяц-1, День, Часы, Минуты)
+    // Пример: 2023 год, 14 сентября: new Date(2023, 8, 14, 0, 0, 0)
+    
+    // Я поставил дефолтную дату, чтобы ты увидел, как работает. ЗАМЕНИ ЕЁ!
+    const startDate = new Date(2024, 0, 1, 0, 0, 0); 
+    
+    // Если хочешь обратный отсчет до ДР (28 ноября 2026), раскомментируй строку ниже и закомментируй верхнюю:
+    // const targetDate = new Date(2026, 10, 28, 0, 0, 0); 
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      
+      // Для прямого отсчета (сколько вместе):
+      const distance = now - startDate.getTime();
+      
+      // Для обратного (до ДР): const distance = targetDate.getTime() - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("timerDisplay").innerText = 
+        `${days} дн. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
+    }, 1000);
+  }
+
+  // === 3. Секретная кнопка и Сердце ===
   function triggerLove() {
-    if (loveTriggered) return; // Срабатывает только раз
+    if (loveTriggered) return;
     loveTriggered = true;
 
-    // Меняем кнопку на текст
-    const btn = document.getElementById('loveBtn');
-    btn.style.display = 'none';
-    document.getElementById('secret').style.display = 'block';
+    document.getElementById('loveBtn').style.display = 'none';
+    document.getElementById('heartTriggerBox').style.display = 'block';
+  }
 
-    // Запускаем салют из центра
+  function explodeHeart() {
+    // Прячем сердце, показываем текст
+    document.getElementById('heartTriggerBox').style.display = 'none';
+    document.getElementById('secretMessage').style.display = 'block';
+
+    // Салют
     const hearts = document.getElementById('hearts');
-    hearts.style.opacity = '1'; // Показываем слой
+    hearts.style.opacity = '1';
     const emojis = ['💚','🍬','❤️','🍭','💕','🎂','🌿'];
 
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 70; i++) {
       setTimeout(() => {
         const s = document.createElement('span');
         s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        
+        // Вылетают из центра экрана
         s.style.left = '50vw';
         s.style.top = '50vh';
         
-        // Рандомная скорость и направление
-        s.style.animation = `fall ${1 + Math.random()*2}s ease-out forwards`;
-        
-        // Немного рандомизируем позицию старта, чтобы не летели одной точкой
-        s.style.transform = `translate(${(Math.random()-0.5)*100}px, ${(Math.random()-0.5)*100}px)`;
-        
-        // Через 2 секунды удаляем
-        setTimeout(() => s.remove(), 2000);
-        
-        hearts.appendChild(s);
-      }, i * 30); // Вылетают с задержкой друг за другом
-    }
+        // Задаем случайный угол разлета
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 100 + Math.random() * 300;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity;
 
-    // Эффект "взрыва" - быстро возвращаем салют вверх экрана
-    const originalFall = hearts.querySelectorAll('span');
-    originalFall.forEach(s => {
-        s.style.animation = `fall 1.5s ease-out forwards`;
-        s.style.top = '-10vh';
-    });
+        s.style.transition = `transform 1.5s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.5s ease-out`;
+        
+        setTimeout(() => {
+            s.style.transform = `translate(${tx}px, ${ty}px) rotate(${Math.random()*720}deg)`;
+            s.style.opacity = '0';
+        }, 10);
+
+        setTimeout(() => s.remove(), 1600);
+        hearts.appendChild(s);
+      }, i * 20);
+    }
   }
 
-  // Фоновый дождик (работает только на экране торта)
+  // === 4. Пасхалка (клик 3 раза по "Тебе 14") ===
+  let eggClicks = 0;
+  document.getElementById('easterEgg').addEventListener('click', () => {
+    eggClicks++;
+    if (eggClicks === 3) {
+      alert("Ты нашла пасхалку! 🥳 Я тебя очень сильно люблю ❤️");
+      eggClicks = 0; 
+    }
+  });
+
+  // === 5. Фоновый дождик ===
   const bgHearts = document.getElementById('hearts');
   const bgEmojis = ['💚','🍬','❤️','🍭','💕','🎂','🌿'];
   
   function spawnBg(){
-    if(opened || loveTriggered) return; // На экране с поздравлением не спавним
+    if(opened) return; // На экране с поздравлением не спавним
     const s = document.createElement('span');
     s.textContent = bgEmojis[Math.floor(Math.random()*bgEmojis.length)];
     s.style.left = Math.random()*100 + 'vw';
@@ -292,9 +360,7 @@
     setTimeout(()=>s.remove(), 12000);
   }
   
-  // Немного эмодзи для фона
   for(let i=0;i<8;i++) setTimeout(spawnBg, i * 300);
-  
 </script>
 </body>
 </html>
