@@ -36,74 +36,49 @@
 
   .cake { position:relative; width:260px; height:260px; margin:0 auto; }
   
-  /* Слои торта */
   .layer { 
     position:absolute; left:50%; transform:translateX(-50%); border-radius:16px; 
     box-shadow: 0 8px 15px rgba(0,0,0,0.08), inset 0 -6px 10px rgba(0,0,0,0.05);
   }
   
-  .layer1 { 
-    bottom:0; width:260px; height:80px; 
-    background:linear-gradient(to right, #fdf5f7, #fce8ed, #fdf5f7); 
-  }
-  .layer2 { 
-    bottom:75px; width:220px; height:70px; 
-    background:linear-gradient(to right, #fdf5f7, #fce8ed, #fdf5f7);
-    z-index: 2;
-  }
-  .layer3 { 
-    bottom:140px; width:180px; height:60px; 
-    background:linear-gradient(to right, #ffb6c1, #ff8da1, #ffb6c1);
-    z-index: 3;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
+  .layer1 { bottom:0; width:260px; height:80px; background:linear-gradient(to right, #fdf5f7, #fce8ed, #fdf5f7); }
+  .layer2 { bottom:75px; width:220px; height:70px; background:linear-gradient(to right, #fdf5f7, #fce8ed, #fdf5f7); z-index: 2; }
+  .layer3 { bottom:140px; width:180px; height:60px; background:linear-gradient(to right, #ffb6c1, #ff8da1, #ffb6c1); z-index: 3; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
 
   /* Капли глазури */
-  .drip {
-    position:absolute; background:inherit; border-radius: 0 0 50% 50%;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  }
+  .drip { position:absolute; background:inherit; border-radius: 0 0 50% 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
   .layer1 .drip { height:22px; width:14px; top:-6px; }
   .layer2 .drip { height:22px; width:14px; top:-6px; }
   .layer3 .drip { height:28px; width:16px; top:-10px; background:#ffb6c1; }
   
   .drip1 { left: 10%; } .drip2 { left: 50%; } .drip3 { left: 85%; }
   .drip4 { left: 20%; } .drip5 { left: 60%; } .drip6 { left: 90%; }
-  .drip7 { left: 20%; } .drip8 { left: 80%; } /* Вот эти два бугорка, куда встанут свечи */
+  .drip7 { left: 20%; } .drip8 { left: 80%; }
 
-  /* Цветная посыпка (статичная на торте) */
-  .sprinkle {
-    position:absolute; width:10px; height:5px; border-radius:3px; transform:rotate(30deg);
-  }
-  .s1 { background:#ffd166; bottom:30px; left:20%; }
-  .s2 { background:#06d6a0; bottom:45px; left:65%; transform:rotate(-20deg); }
-  .s3 { background:#118ab2; bottom:15px; left:85%; }
-  .s4 { background:#ef476f; bottom:85px; left:30%; transform:rotate(45deg); }
-  .s5 { background:#ffd166; bottom:100px; left:75%; }
-  .s6 { background:#06d6a0; bottom:80px; left:15%; transform:rotate(-10deg); }
-  .s7 { background:#118ab2; bottom:155px; left:40%; }
-  .s8 { background:#ef476f; bottom:165px; left:75%; transform:rotate(20deg); }
-
-  /* --- ДВЕ СВЕЧИ НА БУГОРКАХ --- */
-  .candle {
-    position:absolute; 
-    bottom: 150px; /* Ставим ровно на верхний слой (где бугорки) */
-    width:14px; height:44px; border-radius:7px;
-    background:repeating-linear-gradient(45deg,#2d6a4f,#2d6a4f 4px,#a7d8b5 4px,#a7d8b5 8px);
+  /* --- СВЕЧИ (исправленные) --- */
+  .candle-wrapper {
+    position: absolute;
+    bottom: 175px;
+    display: flex; justify-content: center; align-items: flex-end;
+    width: 20px; height: 50px;
     z-index: 10; cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   }
-  .candle.left { left: 35px; }   /* Левая свеча на бугорке */
-  .candle.right { right: 35px; } /* Правая свеча на бугорке */
-  .candle.extinguished { cursor: default; }
+  .candle-wrapper.left { left: 40px; }
+  .candle-wrapper.right { right: 40px; }
+
+  .candle-body {
+    width: 14px; height: 44px; border-radius: 7px;
+    background: repeating-linear-gradient(45deg,#2d6a4f,#2d6a4f 4px,#a7d8b5 4px,#a7d8b5 8px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    position: relative;
+  }
 
   .flame {
-    position:absolute; top:-20px; left:50%; transform:translateX(-50%);
-    width:16px; height:22px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
-    background:radial-gradient(circle at 50% 70%,#fff3b0,#ffb703,#fb8500);
+    position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+    width: 16px; height: 22px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: radial-gradient(circle at 50% 70%,#fff3b0,#ffb703,#fb8500);
     animation: flicker .4s infinite alternate;
-    box-shadow:0 0 20px #ffb703;
+    box-shadow: 0 0 20px #ffb703;
     transition: opacity 0.3s ease;
   }
   @keyframes flicker { from{transform:translateX(-50%) scale(1)} to{transform:translateX(-50%) scale(1.15)} }
@@ -172,9 +147,7 @@
     animation: showUp 0.5s ease forwards;
   }
   #heartTriggerBox .big-heart {
-    font-size: 80px; 
-    animation: heartbeat 1s infinite; 
-    display: inline-block;
+    font-size: 80px; animation: heartbeat 1s infinite; display: inline-block;
     filter: drop-shadow(0 0 15px rgba(255, 92, 138, 0.6));
   }
   @keyframes heartbeat {
@@ -200,27 +173,20 @@
   <div id="cakeScreen">
     <div class="cake-wrap">
       <div class="cake">
-        <div class="layer layer1">
-          <div class="drip drip1"></div><div class="drip drip2"></div><div class="drip drip3"></div>
-          <div class="sprinkle s1"></div><div class="sprinkle s2"></div><div class="sprinkle s3"></div>
-        </div>
-        
-        <div class="layer layer2">
-          <div class="drip drip4"></div><div class="drip drip5"></div><div class="drip drip6"></div>
-          <div class="sprinkle s4"></div><div class="sprinkle s5"></div><div class="sprinkle s6"></div>
-        </div>
-        
-        <div class="layer layer3">
-          <div class="drip drip7"></div><div class="drip drip8"></div>
-          <div class="sprinkle s7"></div><div class="sprinkle s8"></div>
-        </div>
+        <div class="layer layer1"><div class="drip drip1"></div><div class="drip drip2"></div><div class="drip drip3"></div></div>
+        <div class="layer layer2"><div class="drip drip4"></div><div class="drip drip5"></div><div class="drip drip6"></div></div>
+        <div class="layer layer3"><div class="drip drip7"></div><div class="drip drip8"></div></div>
 
-        <!-- Две свечи на бугорках -->
-        <div class="candle left" onclick="blowCandle(this)">
-          <div class="flame"></div><div class="smoke"></div>
+        <!-- Свечи -->
+        <div class="candle-wrapper left" onclick="blowCandle(this)">
+          <div class="candle-body">
+            <div class="flame"></div><div class="smoke"></div>
+          </div>
         </div>
-        <div class="candle right" onclick="blowCandle(this)">
-          <div class="flame"></div><div class="smoke"></div>
+        <div class="candle-wrapper right" onclick="blowCandle(this)">
+          <div class="candle-body">
+            <div class="flame"></div><div class="smoke"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -242,7 +208,6 @@
       <div class="timer-box">
         <div>Мы знакомы уже:</div>
         <div class="time" id="timerDate1" style="margin-bottom: 10px;">Загрузка...</div>
-        
         <div style="border-top: 1px dashed #b7e4c7; padding-top: 10px;">Мы вместе уже:</div>
         <div class="time" id="timerDate2">Загрузка...</div>
       </div>
@@ -266,8 +231,8 @@
   let loveTriggered = false;
 
   function blowCandle(el) {
-    if (el.classList.contains('extinguished')) return;
-    el.classList.add('extinguished');
+    if (el.querySelector('.candle-body').classList.contains('extinguished')) return;
+    el.querySelector('.candle-body').classList.add('extinguished');
     
     const flame = el.querySelector('.flame');
     flame.classList.add('off');
@@ -379,7 +344,7 @@
     }
   });
 
-  // === Фоновый дождик (ТОЛЬКО эмодзи, без посыпки) ===
+  // === Фоновый дождик (ТОЛЬКО сердечки и конфеты) ===
   const bgHearts = document.getElementById('hearts');
   const bgEmojis = ['💚','🍬','❤️','🍭','💕','🎂']; 
   
