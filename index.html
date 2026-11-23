@@ -34,109 +34,113 @@
   .cake-wrap { position:relative; display:inline-block; animation: float 4s ease-in-out infinite; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
 
-  .cake { position:relative; width:240px; height:230px; margin:0 auto; }
+  /* Увеличили контейнер для свечи и вишен */
+  .cake { position:relative; width:260px; height:260px; margin:0 auto; }
   
-  /* Слои торта */
-  .layer { position:absolute; left:50%; transform:translateX(-50%); border-radius:14px; }
+  /* Слои торта с тенями (объем) */
+  .layer { 
+    position:absolute; left:50%; transform:translateX(-50%); border-radius:16px; 
+    box-shadow: 0 8px 15px rgba(0,0,0,0.08), inset 0 -6px 10px rgba(0,0,0,0.05);
+  }
   
   .layer1 { 
-    bottom:0; width:240px; height:75px; 
-    background:linear-gradient(#fdf5f7, #fce8ed); 
-    box-shadow: inset 0 -10px 15px rgba(0,0,0,0.05);
+    bottom:0; width:260px; height:80px; 
+    background:linear-gradient(to right, #fdf5f7, #fce8ed, #fdf5f7); 
   }
   .layer2 { 
-    bottom:70px; width:200px; height:65px; 
-    background:linear-gradient(#fdf5f7, #fce8ed);
-    box-shadow: inset 0 -10px 15px rgba(0,0,0,0.05);
+    bottom:75px; width:220px; height:70px; 
+    background:linear-gradient(to right, #fdf5f7, #fce8ed, #fdf5f7);
+    z-index: 2;
   }
   .layer3 { 
-    bottom:130px; width:160px; height:55px; 
-    background:linear-gradient(#ffb6c1, #ff8da1);
-    box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1);
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+    bottom:140px; width:180px; height:60px; 
+    background:linear-gradient(to right, #ffb6c1, #ff8da1, #ffb6c1);
+    z-index: 3;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    display: flex; /* Вот тут магия, чтобы ровно поставить розочки и вишни */
+    justify-content: space-around;
+    align-items: flex-start;
   }
 
-  /* Капли глазури (исправил форму) */
+  /* Капли глазури */
   .drip {
-    position:absolute; 
-    background:inherit; 
-    border-radius: 0 0 50% 50%;
+    position:absolute; background:inherit; border-radius: 0 0 50% 50%;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   }
-  .layer1 .drip { height:20px; width:12px; top:-5px; }
-  .layer2 .drip { height:20px; width:12px; top:-5px; }
-  .layer3 .drip { height:25px; width:14px; top:-8px; background:#ffb6c1; }
+  .layer1 .drip { height:22px; width:14px; top:-6px; }
+  .layer2 .drip { height:22px; width:14px; top:-6px; }
+  .layer3 .drip { height:28px; width:16px; top:-10px; background:#ffb6c1; }
   
-  .drip1 { left: 15%; } .drip2 { left: 50%; } .drip3 { left: 80%; }
-  .drip4 { left: 20%; } .drip5 { left: 55%; } .drip6 { left: 85%; }
-  .drip7 { left: 25%; } .drip8 { left: 75%; }
+  .drip1 { left: 10%; } .drip2 { left: 50%; } .drip3 { left: 85%; }
+  .drip4 { left: 20%; } .drip5 { left: 60%; } .drip6 { left: 90%; }
+  .drip7 { left: 15%; } .drip8 { left: 80%; }
 
   /* Цветная посыпка */
   .sprinkle {
-    position:absolute; width:8px; height:4px; border-radius:2px; transform:rotate(30deg);
+    position:absolute; width:10px; height:5px; border-radius:3px; transform:rotate(30deg);
   }
   .s1 { background:#ffd166; bottom:30px; left:20%; }
-  .s2 { background:#06d6a0; bottom:40px; left:60%; transform:rotate(-20deg); }
-  .s3 { background:#118ab2; bottom:15px; left:80%; }
-  .s4 { background:#ef476f; bottom:80px; left:30%; transform:rotate(45deg); }
-  .s5 { background:#ffd166; bottom:90px; left:70%; }
-  .s6 { background:#06d6a0; bottom:75px; left:85%; transform:rotate(-10deg); }
-  .s7 { background:#118ab2; bottom:140px; left:40%; }
-  .s8 { background:#ef476f; bottom:150px; left:65%; transform:rotate(20deg); }
+  .s2 { background:#06d6a0; bottom:45px; left:65%; transform:rotate(-20deg); }
+  .s3 { background:#118ab2; bottom:15px; left:85%; }
+  .s4 { background:#ef476f; bottom:85px; left:30%; transform:rotate(45deg); }
+  .s5 { background:#ffd166; bottom:100px; left:75%; }
+  .s6 { background:#06d6a0; bottom:80px; left:15%; transform:rotate(-10deg); }
+  .s7 { background:#118ab2; bottom:155px; left:40%; }
+  .s8 { background:#ef476f; bottom:165px; left:75%; transform:rotate(20deg); }
 
-  /* Белые розочки крема (поставил ровно) */
+  /* Группа: Розочка + Вишенка */
+  .cherry-group {
+    display: flex; flex-direction: column; align-items: center;
+    position: relative; top: -15px; /* Приподнимаем над верхним краем */
+    z-index: 4;
+  }
+
   .rosette {
-    position:absolute; background: #fff; border-radius: 50%;
-    box-shadow: inset -3px -3px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.05);
-    z-index: 2;
+    width: 42px; height: 42px; background: #fff; border-radius: 50%;
+    box-shadow: inset -4px -4px 8px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.08);
+    display: flex; justify-content: center; align-items: center;
   }
-  .r1 { width:36px; height:36px; bottom:150px; left:10px; }
-  .r2 { width:36px; height:36px; bottom:150px; right:10px; }
-  .r3 { width:36px; height:36px; bottom:150px; left:50%; transform: translateX(-50%); }
 
-  /* Красные вишенки (теперь ровно на розочках) */
   .cherry {
-    position:absolute; width:22px; height:22px; border-radius:50%;
+    width: 26px; height: 26px; border-radius:50%;
     background:radial-gradient(circle at 30% 30%, #ff5c8a, #c9184a);
-    box-shadow:0 3px 6px rgba(201,24,74,.5);
-    z-index: 3;
+    box-shadow: 0 4px 8px rgba(201,24,74,.5);
+    position: absolute; top: -10px; /* Вишенка сидит на розочке */
   }
-  .c1 { bottom:180px; left:17px; }
-  .c2 { bottom:180px; right:17px; }
-  .c3 { bottom:180px; left:50%; transform: translateX(-50%); }
 
-  /* --- СВЕЧА ПО ЦЕНТРУ --- */
+  /* --- СВЕЧА ПО ЦЕНТРУ (между вишнями) --- */
   .candle {
     position:absolute; 
     bottom: 175px; left: 50%; transform: translateX(-50%);
-    width:14px; height:40px; border-radius:7px;
+    width:16px; height:48px; border-radius:8px;
     background:repeating-linear-gradient(45deg,#2d6a4f,#2d6a4f 4px,#a7d8b5 4px,#a7d8b5 8px);
-    z-index: 5; cursor: pointer;
+    z-index: 10; cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
   }
   .candle.extinguished { cursor: default; }
 
   .flame {
-    position:absolute; top:-18px; left:50%; transform:translateX(-50%);
-    width:16px; height:22px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+    position:absolute; top:-22px; left:50%; transform:translateX(-50%);
+    width:18px; height:24px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
     background:radial-gradient(circle at 50% 70%,#fff3b0,#ffb703,#fb8500);
     animation: flicker .4s infinite alternate;
-    box-shadow:0 0 20px #ffb703;
+    box-shadow:0 0 25px #ffb703;
     transition: opacity 0.3s ease;
   }
   @keyframes flicker { from{transform:translateX(-50%) scale(1)} to{transform:translateX(-50%) scale(1.15)} }
   .flame.off { opacity: 0; animation: none; }
 
   .smoke {
-    position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
-    width: 6px; height: 6px; border-radius: 50%;
+    position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
+    width: 8px; height: 8px; border-radius: 50%;
     background: rgba(200, 200, 200, 0.8);
-    opacity: 0; pointer-events: none; z-index: 6;
+    opacity: 0; pointer-events: none; z-index: 11;
   }
   .smoke.animate { animation: puff 1s ease-out forwards; }
   @keyframes puff {
     0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-    100% { opacity: 0; transform: translate(-50%, -30px) scale(3); }
+    100% { opacity: 0; transform: translate(-50%, -40px) scale(3); }
   }
 
   .hint { margin-top:26px; color:#2d6a4f; font-weight:700; font-size:18px; transition: opacity 0.3s; }
@@ -232,23 +236,23 @@
           <div class="sprinkle s4"></div><div class="sprinkle s5"></div><div class="sprinkle s6"></div>
         </div>
         
-        <!-- Верхний слой с розовым кремом -->
+        <!-- Верхний слой с розовым кремом, розочками и вишнями -->
         <div class="layer layer3">
           <div class="drip drip7"></div><div class="drip drip8"></div>
           <div class="sprinkle s7"></div><div class="sprinkle s8"></div>
+          
+          <!-- Группа 1: Левая вишня -->
+          <div class="cherry-group">
+            <div class="rosette"><div class="cherry"></div></div>
+          </div>
+          
+          <!-- Группа 2: Правая вишня -->
+          <div class="cherry-group">
+            <div class="rosette"><div class="cherry"></div></div>
+          </div>
         </div>
 
-        <!-- Белые розочки (завитки крема) -->
-        <div class="rosette r1"></div>
-        <div class="rosette r2"></div>
-        <div class="rosette r3"></div>
-
-        <!-- Вишенки на розочках -->
-        <div class="cherry c1"></div>
-        <div class="cherry c2"></div>
-        <div class="cherry c3"></div>
-        
-        <!-- Свеча по центру -->
+        <!-- Свеча по центру (рисуется поверх торта) -->
         <div class="candle center" onclick="blowCandle(this)">
           <div class="flame"></div><div class="smoke"></div>
         </div>
