@@ -57,10 +57,6 @@
     z-index: 3;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    display: flex; 
-    justify-content: space-between; /* Раздвигаем по краям */
-    align-items: flex-start;
-    padding: 0 10px; /* Отступы от краев */
   }
 
   /* Капли глазури */
@@ -76,7 +72,7 @@
   .drip4 { left: 20%; } .drip5 { left: 60%; } .drip6 { left: 90%; }
   .drip7 { left: 15%; } .drip8 { left: 80%; }
 
-  /* Цветная посыпка (статичная) */
+  /* Цветная посыпка (статичная на торте) */
   .sprinkle {
     position:absolute; width:10px; height:5px; border-radius:3px; transform:rotate(30deg);
   }
@@ -89,25 +85,21 @@
   .s7 { background:#118ab2; bottom:155px; left:40%; }
   .s8 { background:#ef476f; bottom:165px; left:75%; transform:rotate(20deg); }
 
-  /* Группа: Розочка + Вишенка */
-  .cherry-group {
-    display: flex; flex-direction: column; align-items: center;
-    position: relative; top: -15px; 
+  /* --- НОВАЯ ВЕРХУШКА: Маленькие вишенки в ряд --- */
+  .cherry-row {
+    position: absolute;
+    top: -10px; /* На самом верху розового слоя */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px; /* Расстояние между вишнями */
     z-index: 4;
   }
 
-  .rosette {
-    width: 36px; height: 36px; /* Уменьшили размер */
-    background: #fff; border-radius: 50%;
-    box-shadow: inset -4px -4px 8px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.08);
-    display: flex; justify-content: center; align-items: center;
-  }
-
   .cherry {
-    width: 22px; height: 22px; border-radius:50%;
-    background:radial-gradient(circle at 30% 30%, #ff5c8a, #c9184a);
-    box-shadow: 0 3px 6px rgba(201,24,74,.5);
-    position: absolute; top: -8px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ff5c8a, #c9184a);
+    box-shadow: 0 2px 4px rgba(201,24,74,.5);
   }
 
   /* --- СВЕЧА ПО ЦЕНТРУ --- */
@@ -242,16 +234,17 @@
           <div class="drip drip7"></div><div class="drip drip8"></div>
           <div class="sprinkle s7"></div><div class="sprinkle s8"></div>
           
-          <div class="cherry-group">
-            <div class="rosette"><div class="cherry"></div></div>
-          </div>
-          
-          <div class="cherry-group">
-            <div class="rosette"><div class="cherry"></div></div>
+          <!-- Ряд мелких вишенок -->
+          <div class="cherry-row">
+            <div class="cherry"></div>
+            <div class="cherry"></div>
+            <div class="cherry"></div>
+            <div class="cherry"></div>
+            <div class="cherry"></div>
           </div>
         </div>
 
-        <!-- Свеча (по центру) -->
+        <!-- Свеча по центру -->
         <div class="candle center" onclick="blowCandle(this)">
           <div class="flame"></div><div class="smoke"></div>
         </div>
@@ -404,9 +397,10 @@
     }
   });
 
-  // === 5. Фоновый дождик (ТОЛЬКО сердечки и конфеты, без посыпки!) ===
+  // === 5. Фоновый дождик ===
+  // ВНИМАНИЕ: В этом массиве теперь ТОЛЬКО эмодзи, никаких точек.
   const bgHearts = document.getElementById('hearts');
-  const bgEmojis = ['💚','🍬','❤️','🍭','💕','🎂']; // Убрали летающую посыпку
+  const bgEmojis = ['💚','🍬','❤️','🍭','💕','🎂']; 
   
   function spawnBg(){
     if(opened) return;
