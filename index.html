@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Милане-Конфетке 🍬 14</title>
+<title>Милане — Конфетке, 14 лет</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
@@ -30,7 +30,6 @@ body {
   overflow-x: hidden;
   font-family: 'Nunito', sans-serif;
   color: var(--ink);
-  background-attachment: fixed;
   background-color: #edf5e9;
   background-image:
     radial-gradient(rgba(71,123,97,.13) .8px, transparent .8px),
@@ -38,125 +37,113 @@ body {
     radial-gradient(ellipse at 90% 82%, rgba(196,225,197,.8), transparent 35%),
     linear-gradient(135deg, #f5f8e9, #e1f0e3 55%, #fff1ed);
   background-size: 13px 13px, auto, auto, auto;
+  background-attachment: fixed;
   display: grid;
   place-items: center;
   padding: 24px 14px;
 }
 
-body::before,
-body::after {
-  content: "✦";
+/* Декоративные рисованные элементы */
+
+.background-doodles {
   position: fixed;
-  color: rgba(71,123,97,.18);
-  font-size: 180px;
+  inset: 0;
   pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
-
-body::before {
-  top: -65px;
-  left: -45px;
-  transform: rotate(-18deg);
-}
-
-body::after {
-  bottom: -90px;
-  right: -25px;
-  transform: rotate(20deg);
-}
-
-/* Фоновые рисованные украшения */
 
 .doodle {
-  position: fixed;
-  z-index: 0;
-  pointer-events: none;
-  color: #477b61;
-  opacity: .58;
-  user-select: none;
-  font-family: 'Comfortaa', sans-serif;
-  text-shadow: 1px 1px 0 rgba(255,255,255,.8);
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  overflow: visible;
+  opacity: .7;
 }
 
-.doodle.one {
-  left: 7%;
-  top: 17%;
-  font-size: 38px;
-  transform: rotate(-17deg);
-  color: #d97791;
+.doodle path,
+.doodle circle,
+.doodle line,
+.doodle ellipse {
+  fill: none;
+  stroke: #477b61;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.doodle.two {
-  right: 8%;
-  top: 19%;
-  font-size: 31px;
-  color: #719b7c;
-  transform: rotate(12deg);
+.doodle.pink path,
+.doodle.pink circle,
+.doodle.pink line {
+  stroke: #d97791;
 }
 
-.doodle.three {
-  left: 11%;
-  bottom: 17%;
-  font-size: 30px;
-  color: #719b7c;
-  transform: rotate(13deg);
+.doodle.one { left: 6%; top: 15%; transform: rotate(-17deg); }
+.doodle.two { right: 7%; top: 17%; transform: rotate(12deg); }
+.doodle.three { left: 10%; bottom: 14%; transform: rotate(13deg); }
+.doodle.four { right: 8%; bottom: 13%; transform: rotate(-12deg); }
+.doodle.five { left: 24%; top: 5%; width: 38px; height: 38px; }
+.doodle.six { right: 23%; bottom: 5%; width: 42px; height: 42px; }
+
+@media(max-width:600px) {
+  .doodle.one { left: 1%; top: 6%; }
+  .doodle.two { right: 1%; top: 7%; }
+  .doodle.three { left: 1%; bottom: 5%; }
+  .doodle.four { right: 1%; bottom: 5%; }
+  .doodle.five,
+  .doodle.six { display: none; }
 }
 
-.doodle.four {
-  right: 10%;
-  bottom: 14%;
-  font-size: 42px;
-  color: #d97791;
-  transform: rotate(-12deg);
-}
+/* SVG-украшения */
 
-.doodle.five {
-  left: 23%;
-  top: 7%;
-  font-size: 20px;
-  color: #719b7c;
-}
-
-.doodle.six {
-  right: 24%;
-  bottom: 7%;
-  font-size: 22px;
-  color: #d9a24f;
-}
-
-.doodle svg {
-  width: 54px;
-  height: 54px;
+svg {
   overflow: visible;
 }
 
-@media (max-width: 600px) {
-  .doodle.one {
-    left: 2%;
-    top: 8%;
-  }
-
-  .doodle.two {
-    right: 2%;
-    top: 9%;
-  }
-
-  .doodle.three {
-    left: 2%;
-    bottom: 6%;
-  }
-
-  .doodle.four {
-    right: 2%;
-    bottom: 5%;
-  }
-
-  .doodle.five,
-  .doodle.six {
-    display: none;
-  }
+.drawn-heart {
+  width: 54px;
+  height: 54px;
+  display: inline-block;
+  animation: beat 1.2s infinite;
 }
 
-/* Летящие сердечки */
+.drawn-heart path {
+  fill: #f58ca8;
+  stroke: #a94c68;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.drawn-candy {
+  width: 54px;
+  height: 48px;
+  display: inline-block;
+}
+
+.drawn-candy path,
+.drawn-candy ellipse {
+  stroke: #477b61;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.drawn-candy .wrapper {
+  fill: #b9dcbf;
+}
+
+.drawn-candy .sweet {
+  fill: #ffb4c6;
+}
+
+.drawn-candy .shine {
+  fill: none;
+  stroke: #fffaf4;
+  stroke-width: 2;
+}
+
+/* Частицы */
 
 .hearts {
   position: fixed;
@@ -168,12 +155,18 @@ body::after {
   transition: opacity .4s;
 }
 
-.hearts span {
+.hearts .particle {
   position: absolute;
   top: 50%;
   left: 50%;
-  font-size: 22px;
+  width: 29px;
+  height: 29px;
   will-change: transform, opacity;
+}
+
+.hearts .particle svg {
+  width: 100%;
+  height: 100%;
 }
 
 /* Экран с тортом */
@@ -196,12 +189,8 @@ body::after {
 }
 
 @keyframes float {
-  0%,100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
 
 .cake {
@@ -223,48 +212,27 @@ body::after {
     inset 0 -7px 12px rgba(71,123,97,.08);
 }
 
-/* Нижний слой — шалфейный */
-
 .layer1 {
   bottom: 0;
   width: 260px;
   height: 78px;
-  background: linear-gradient(
-    90deg,
-    #dcebd7,
-    #b9d8bd,
-    #dcebd7
-  );
+  background: linear-gradient(90deg,#dcebd7,#b9d8bd,#dcebd7);
 }
-
-/* Средний слой — мятно-кремовый */
 
 .layer2 {
   bottom: 72px;
   width: 220px;
   height: 70px;
-  background: linear-gradient(
-    90deg,
-    #f5f2d9,
-    #d8ebd4,
-    #f5f2d9
-  );
+  background: linear-gradient(90deg,#f5f2d9,#d8ebd4,#f5f2d9);
   z-index: 2;
 }
-
-/* Верхний слой — клубничный */
 
 .layer3 {
   bottom: 137px;
   width: 180px;
   height: 60px;
   z-index: 3;
-  background: linear-gradient(
-    90deg,
-    #ffb5c5,
-    #ff8eaa,
-    #ffb5c5
-  );
+  background: linear-gradient(90deg,#ffb5c5,#ff8eaa,#ffb5c5);
   display: flex;
   justify-content: space-around;
   padding: 0 15px;
@@ -295,8 +263,6 @@ body::after {
 .drip7 { left: 20%; }
 .drip8 { left: 80%; }
 
-/* Посыпка */
-
 .sprinkle {
   position: absolute;
   width: 10px;
@@ -305,46 +271,12 @@ body::after {
   transform: rotate(30deg);
 }
 
-.s1 {
-  background: #d9a24f;
-  bottom: 25px;
-  left: 20%;
-}
-
-.s2 {
-  background: #477b61;
-  bottom: 43px;
-  left: 65%;
-  transform: rotate(-20deg);
-}
-
-.s3 {
-  background: #a5cfa9;
-  bottom: 14px;
-  left: 85%;
-}
-
-.s4 {
-  background: #ef7898;
-  bottom: 85px;
-  left: 30%;
-  transform: rotate(45deg);
-}
-
-.s5 {
-  background: #d8e9b9;
-  bottom: 100px;
-  left: 75%;
-}
-
-.s6 {
-  background: #70a981;
-  bottom: 80px;
-  left: 15%;
-  transform: rotate(-10deg);
-}
-
-/* Вишенки и крем */
+.s1 { background:#d9a24f; bottom:25px; left:20%; }
+.s2 { background:#477b61; bottom:43px; left:65%; transform:rotate(-20deg); }
+.s3 { background:#a5cfa9; bottom:14px; left:85%; }
+.s4 { background:#ef7898; bottom:85px; left:30%; transform:rotate(45deg); }
+.s5 { background:#d8e9b9; bottom:100px; left:75%; }
+.s6 { background:#70a981; bottom:80px; left:15%; transform:rotate(-10deg); }
 
 .cherry-group {
   display: flex;
@@ -363,6 +295,7 @@ body::after {
   box-shadow:
     inset -4px -4px 8px rgba(0,0,0,.08),
     0 4px 8px rgba(0,0,0,.08);
+  border: 1px solid #d6b7a9;
 }
 
 .cherry {
@@ -371,11 +304,7 @@ body::after {
   border-radius: 50%;
   position: absolute;
   top: -8px;
-  background: radial-gradient(
-    circle at 30% 30%,
-    #ff7b9d,
-    #c9184a
-  );
+  background: radial-gradient(circle at 30% 30%,#ff7b9d,#c9184a);
   box-shadow: 0 3px 6px rgba(201,24,74,.35);
 }
 
@@ -411,6 +340,7 @@ body::after {
     #b8dfc3 4px,
     #b8dfc3 8px
   );
+  border: 1px solid #315d43;
   box-shadow: 0 4px 8px rgba(0,0,0,.15);
 }
 
@@ -420,21 +350,20 @@ body::after {
 
 .flame {
   position: absolute;
-  top: -21px;
+  top: -23px;
   left: 50%;
   transform: translateX(-50%);
-  width: 16px;
-  height: 22px;
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  background: radial-gradient(
-    circle at 50% 70%,
-    #fff3b0,
-    #ffb703,
-    #fb8500
-  );
+  width: 19px;
+  height: 25px;
+  transform-origin: center bottom;
   animation: flicker .4s infinite alternate;
-  box-shadow: 0 0 20px #ffb703;
   transition: opacity .3s;
+}
+
+.flame svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 8px rgba(255,170,50,.7));
 }
 
 .flame.off {
@@ -443,9 +372,7 @@ body::after {
 }
 
 @keyframes flicker {
-  to {
-    transform: translateX(-50%) scale(1.15);
-  }
+  to { transform: translateX(-50%) rotate(5deg) scale(1.12); }
 }
 
 .smoke {
@@ -481,13 +408,18 @@ body::after {
   animation: pulse 1.6s infinite;
 }
 
-@keyframes pulse {
-  50% {
-    opacity: .5;
-  }
+.hint svg {
+  width: 22px;
+  height: 27px;
+  vertical-align: middle;
+  margin-left: 5px;
 }
 
-/* Основная открытка */
+@keyframes pulse {
+  50% { opacity: .5; }
+}
+
+/* Открытка */
 
 #mainScreen {
   display: none;
@@ -551,16 +483,28 @@ body::after {
 }
 
 .heart {
-  font-size: 48px;
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heart svg {
+  width: 54px;
+  height: 54px;
   animation: beat 1.2s infinite;
-  text-shadow: 2px 3px 0 rgba(217,79,122,.13);
+  filter: drop-shadow(2px 3px 0 rgba(217,79,122,.13));
+}
+
+.heart svg path {
+  fill: #f58ca8;
+  stroke: #a94c68;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 @keyframes beat {
-  50% {
-    transform: scale(1.18);
-  }
+  50% { transform: scale(1.18); }
 }
 
 h1 {
@@ -585,11 +529,44 @@ h1 {
   margin-bottom: 14px;
 }
 
-.candy {
-  font-size: 29px;
-  letter-spacing: 7px;
+/* Рисованные конфетки */
+
+.candy-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
   margin: 10px 0 16px;
-  filter: drop-shadow(1px 2px 0 rgba(120,80,80,.12));
+}
+
+.candy-row svg {
+  width: 49px;
+  height: 43px;
+  overflow: visible;
+}
+
+.candy-row svg:nth-child(1) { transform: rotate(-13deg); }
+.candy-row svg:nth-child(2) { transform: rotate(7deg) scale(1.12); }
+.candy-row svg:nth-child(3) { transform: rotate(15deg); }
+
+.candy-row .wrapper {
+  fill: #b9dcbf;
+  stroke: #477b61;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.candy-row .sweet {
+  fill: #ffb4c6;
+  stroke: #a94c68;
+  stroke-width: 2;
+}
+
+.candy-row .shine {
+  fill: none;
+  stroke: #fffaf4;
+  stroke-width: 2;
+  stroke-linecap: round;
 }
 
 p {
@@ -600,17 +577,13 @@ p {
   max-width: 460px;
 }
 
-/* Таймеры */
+/* Таймер */
 
 .timer-box {
   margin: 21px 0 17px;
   padding: 17px 14px;
   border-radius: 20px;
-  background: linear-gradient(
-    135deg,
-    #e6f3e5,
-    #fffaf0
-  );
+  background: linear-gradient(135deg,#e6f3e5,#fffaf0);
   border: 1.5px dashed #79a982;
   color: var(--green);
   font-size: 15px;
@@ -638,11 +611,7 @@ button {
   color: white;
   font: 900 16px 'Nunito',sans-serif;
   cursor: pointer;
-  background: linear-gradient(
-    135deg,
-    #609875,
-    #3e7054
-  );
+  background: linear-gradient(135deg,#609875,#3e7054);
   box-shadow: 3px 4px 0 rgba(49,93,67,.2);
   transition: transform .2s, box-shadow .2s;
 }
@@ -656,7 +625,7 @@ button:active {
   transform: scale(.97);
 }
 
-/* Секретное сердечко */
+/* Рисованное сердце */
 
 #heartTriggerBox {
   display: none;
@@ -667,9 +636,30 @@ button:active {
 
 .big-heart {
   display: inline-block;
-  font-size: 76px;
+  width: 83px;
+  height: 83px;
   filter: drop-shadow(0 7px 13px rgba(255,92,138,.25));
   animation: heartbeat 1s infinite;
+}
+
+.big-heart svg {
+  width: 100%;
+  height: 100%;
+}
+
+.big-heart path {
+  fill: #f58ca8;
+  stroke: #a94c68;
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.big-heart .shine {
+  fill: none;
+  stroke: #fff1f4;
+  stroke-width: 2;
+  stroke-linecap: round;
 }
 
 @keyframes heartbeat {
@@ -679,14 +669,8 @@ button:active {
 }
 
 @keyframes showUp {
-  from {
-    opacity: 0;
-    transform: scale(.6);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(.6); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 #heartTriggerBox div:last-child {
@@ -710,12 +694,8 @@ button:active {
   animation: showUp .4s ease;
 }
 
-/* Адаптация для телефона */
-
-@media (max-width:480px) {
-  body {
-    padding: 16px 10px;
-  }
+@media(max-width:480px) {
+  body { padding: 16px 10px; }
 
   .cake {
     transform: scale(.88);
@@ -728,12 +708,10 @@ button:active {
     border-radius: 26px;
   }
 
-  p {
-    font-size: 15px;
-  }
+  p { font-size: 15px; }
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media(prefers-reduced-motion:reduce) {
   *,
   *::before,
   *::after {
@@ -747,19 +725,48 @@ button:active {
 
 <body>
 
-<div class="doodle one">♡</div>
-<div class="doodle two">✿</div>
-<div class="doodle three">✧</div>
-<div class="doodle four">♡</div>
-<div class="doodle five">✦</div>
-<div class="doodle six">✳</div>
+<!-- Рисованные украшения фона -->
+
+<div class="background-doodles">
+
+  <svg class="doodle one pink" viewBox="0 0 60 60">
+    <path d="M30 48 C22 40 7 30 12 19 C17 8 29 16 30 23 C34 13 48 10 51 21 C55 33 39 42 30 48Z"/>
+    <path d="M23 25 Q27 21 29 27"/>
+  </svg>
+
+  <svg class="doodle two" viewBox="0 0 60 60">
+    <path d="M30 9 C35 17 42 20 50 21 C42 27 37 34 30 48 C23 35 18 28 9 21 C18 19 25 16 30 9Z"/>
+    <circle cx="30" cy="27" r="4"/>
+  </svg>
+
+  <svg class="doodle three" viewBox="0 0 60 60">
+    <path d="M30 8 Q33 20 45 24 Q33 29 30 48 Q26 31 12 24 Q27 20 30 8Z"/>
+    <path d="M30 17 L30 39 M19 24 L40 24"/>
+  </svg>
+
+  <svg class="doodle four pink" viewBox="0 0 60 60">
+    <path d="M30 48 C22 40 7 30 12 19 C17 8 29 16 30 23 C34 13 48 10 51 21 C55 33 39 42 30 48Z"/>
+  </svg>
+
+  <svg class="doodle five" viewBox="0 0 60 60">
+    <path d="M30 5 L34 24 L53 30 L34 34 L30 54 L25 34 L7 30 L25 24Z"/>
+  </svg>
+
+  <svg class="doodle six" viewBox="0 0 60 60">
+    <path d="M30 10 Q37 22 49 30 Q37 38 30 50 Q22 38 10 30 Q22 22 30 10Z"/>
+    <path d="M30 18 L30 42 M18 30 L42 30"/>
+  </svg>
+
+</div>
 
 <div class="hearts" id="hearts"></div>
 
-<!-- ЭКРАН С ТОРТОМ -->
+<!-- Экран с тортом -->
 
 <div id="cakeScreen">
+
   <div class="cake-wrap">
+
     <div class="cake">
 
       <div class="layer layer1">
@@ -800,32 +807,79 @@ button:active {
       </div>
 
       <div class="candle" id="candle" onclick="blowCandle(this)">
-        <div class="flame"></div>
+        <div class="flame">
+          <svg viewBox="0 0 24 32">
+            <path d="M12 1 C15 9 22 13 19 23 C17 32 5 32 3 23 C0 14 9 8 12 1Z"
+              fill="#ffb52e" stroke="#d87922" stroke-width="1.2"/>
+            <path d="M12 12 C14 17 17 20 14 25 C12 29 7 27 7 23 C6 19 10 16 12 12Z"
+              fill="#fff2b1"/>
+          </svg>
+        </div>
         <div class="smoke"></div>
       </div>
 
     </div>
+
   </div>
 
   <div class="hint" id="hintText">
-    <span>Задуй свечу 🕯️</span>
+    Задуй свечу
+    <svg viewBox="0 0 24 32">
+      <path d="M12 2 C15 9 21 13 19 22 C17 31 6 31 4 22 C2 14 9 8 12 2Z"
+        fill="#ffbd50" stroke="#477b61" stroke-width="1.6"/>
+      <path d="M12 13 C15 18 16 22 13 25 C10 28 7 25 8 22 C8 18 11 15 12 13Z"
+        fill="#fff4c4"/>
+    </svg>
   </div>
+
 </div>
 
-<!-- ОСНОВНАЯ ОТКРЫТКА -->
+<!-- Основная открытка -->
 
 <div id="mainScreen">
+
   <div class="card">
 
-    <div class="heart">💚</div>
+    <div class="heart">
+      <svg viewBox="0 0 60 60">
+        <path d="M30 49 C21 41 7 31 11 19 C15 8 28 13 30 23 C34 12 48 10 52 21 C56 33 40 43 30 49Z"/>
+        <path d="M19 19 Q23 16 26 21" fill="none" stroke="#fff1f4" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
 
     <h1>С днём рождения, Конфетка!</h1>
 
-    <div class="age">Тебе 14 🎉</div>
+    <div class="age">Тебе 14</div>
 
-    <div class="date">28 ноября 🎂</div>
+    <div class="date">28 ноября</div>
 
-    <div class="candy">🍬🍭🍬</div>
+    <!-- Нарисованные конфетки -->
+
+    <div class="candy-row">
+
+      <svg viewBox="0 0 60 50">
+        <path class="wrapper" d="M17 17 L3 9 L8 25 L3 40 L18 33Z"/>
+        <path class="wrapper" d="M43 17 L57 9 L52 25 L57 40 L42 33Z"/>
+        <ellipse class="sweet" cx="30" cy="25" rx="15" ry="13"/>
+        <path class="shine" d="M23 18 Q29 13 35 19"/>
+      </svg>
+
+      <svg viewBox="0 0 60 50">
+        <path class="wrapper" d="M17 17 L3 9 L8 25 L3 40 L18 33Z"/>
+        <path class="wrapper" d="M43 17 L57 9 L52 25 L57 40 L42 33Z"/>
+        <ellipse class="sweet" cx="30" cy="25" rx="15" ry="13"/>
+        <path class="shine" d="M23 18 Q29 13 35 19"/>
+        <path d="M30 16 Q36 24 30 34 Q24 24 30 16Z" fill="#fff0b5" stroke="#a94c68" stroke-width="1.2"/>
+      </svg>
+
+      <svg viewBox="0 0 60 50">
+        <path class="wrapper" d="M17 17 L3 9 L8 25 L3 40 L18 33Z"/>
+        <path class="wrapper" d="M43 17 L57 9 L52 25 L57 40 L42 33Z"/>
+        <ellipse class="sweet" cx="30" cy="25" rx="15" ry="13"/>
+        <path class="shine" d="M23 18 Q29 13 35 19"/>
+      </svg>
+
+    </div>
 
     <p>
       Моя любимая <b>Бусинка</b>, ты — самое сладкое,
@@ -839,23 +893,33 @@ button:active {
     </p>
 
     <div class="timer-box">
+
       <div>Мы знакомы уже:</div>
       <div class="time" id="timerDate1">Загрузка...</div>
 
       <div class="timer-divider">Мы вместе уже:</div>
-
       <div class="time" id="timerDate2" style="margin-bottom:0">
         Загрузка...
       </div>
+
     </div>
 
     <button id="loveBtn" onclick="triggerLove()">
-      Нажми на меня 🎁
+      Нажми на меня
     </button>
 
     <div id="heartTriggerBox" onclick="explodeHeart()">
-      <div class="big-heart">❤️</div>
+
+      <div class="big-heart">
+        <svg viewBox="0 0 90 90">
+          <path d="M45 75 C30 62 8 47 13 29 C18 11 39 16 45 33 C52 14 75 13 80 31 C85 49 60 65 45 75Z"/>
+          <path class="shine" d="M25 29 Q31 22 38 30"/>
+          <path class="shine" d="M20 40 Q21 45 26 49"/>
+        </svg>
+      </div>
+
       <div>(нажми на сердце)</div>
+
     </div>
 
     <div id="secretMessage">
@@ -864,7 +928,51 @@ button:active {
     </div>
 
   </div>
+
 </div>
+
+<!-- Шаблоны рисованных частиц -->
+
+<template id="heartParticle">
+  <svg viewBox="0 0 40 40">
+    <path d="M20 34 C14 28 3 20 6 12 C9 4 18 7 20 15 C23 7 33 5 36 13 C39 21 26 30 20 34Z"
+      fill="#f58ca8" stroke="#a94c68" stroke-width="1.8"/>
+    <path d="M12 12 Q16 9 18 14"
+      fill="none" stroke="#fff1f4" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+</template>
+
+<template id="flowerParticle">
+  <svg viewBox="0 0 40 40">
+    <g fill="#f4a1b5" stroke="#a94c68" stroke-width="1.2">
+      <ellipse cx="20" cy="9" rx="5" ry="8"/>
+      <ellipse cx="20" cy="31" rx="5" ry="8"/>
+      <ellipse cx="9" cy="20" rx="8" ry="5"/>
+      <ellipse cx="31" cy="20" rx="8" ry="5"/>
+    </g>
+    <circle cx="20" cy="20" r="5" fill="#ffe5a5" stroke="#a98545" stroke-width="1.2"/>
+  </svg>
+</template>
+
+<template id="starParticle">
+  <svg viewBox="0 0 40 40">
+    <path d="M20 3 L24 15 L37 20 L24 24 L20 37 L15 24 L3 20 L15 15Z"
+      fill="#f5d58b" stroke="#a98545" stroke-width="1.5" stroke-linejoin="round"/>
+  </svg>
+</template>
+
+<template id="candyParticle">
+  <svg viewBox="0 0 40 40">
+    <path d="M12 15 L3 9 L6 20 L3 31 L13 25Z"
+      fill="#b9dcbf" stroke="#477b61" stroke-width="1.5"/>
+    <path d="M28 15 L37 9 L34 20 L37 31 L27 25Z"
+      fill="#b9dcbf" stroke="#477b61" stroke-width="1.5"/>
+    <ellipse cx="20" cy="20" rx="11" ry="10"
+      fill="#ffb4c6" stroke="#a94c68" stroke-width="1.5"/>
+    <path d="M15 16 Q19 12 23 16"
+      fill="none" stroke="#fffaf4" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+</template>
 
 <script>
 let opened = false;
@@ -894,7 +1002,6 @@ function openGift() {
   setTimeout(() => {
     document.getElementById('cakeScreen').style.display = 'none';
     document.getElementById('mainScreen').classList.add('show');
-
     startTimer();
   }, 650);
 }
@@ -960,14 +1067,23 @@ function explodeHeart() {
   const hearts = document.getElementById('hearts');
   hearts.style.opacity = '1';
 
-  const emojis = ['💚','🍬','❤️','🍭','💕','🎂'];
+  const templates = [
+    'heartParticle',
+    'flowerParticle',
+    'starParticle',
+    'candyParticle'
+  ];
 
   for (let i = 0; i < 70; i++) {
     setTimeout(() => {
-      const particle = document.createElement('span');
+      const templateId =
+        templates[Math.floor(Math.random() * templates.length)];
 
-      particle.textContent =
-        emojis[Math.floor(Math.random() * emojis.length)];
+      const template = document.getElementById(templateId);
+      const particle = document.createElement('div');
+
+      particle.className = 'particle';
+      particle.innerHTML = template.innerHTML;
 
       const angle = Math.random() * Math.PI * 2;
       const velocity = 100 + Math.random() * 300;
@@ -988,6 +1104,7 @@ function explodeHeart() {
       });
 
       setTimeout(() => particle.remove(), 1600);
+
     }, i * 20);
   }
 }
