@@ -5,261 +5,955 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Милане-Конфетке — 14</title>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
-:root{--green:#477b61;--dark:#315541;--mint:#dff2e6;--pale:#f4fbf4;--pink:#f27b9b;--deep:#d94f7a;--cream:#fffaf4;--ink:#514d45;--line:#9dbda4}
-*{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;overflow-x:hidden;font-family:'Nunito',sans-serif;color:var(--ink);background:radial-gradient(rgba(71,123,97,.10) .8px,transparent .8px),radial-gradient(ellipse at 12% 18%,#fff 0,transparent 34%),radial-gradient(ellipse at 90% 82%,#dff2e6 0,transparent 36%),linear-gradient(135deg,#f8fff8,#fff8f1 55%,#e9f5e9);background-size:13px 13px,auto,auto,auto;display:grid;place-items:center;padding:22px 12px}
-body:before,body:after{content:'✦';position:fixed;pointer-events:none;color:rgba(71,123,97,.14);font-size:170px}body:before{top:-65px;left:-42px;transform:rotate(-18deg)}body:after{bottom:-85px;right:-20px;transform:rotate(20deg)}
-.doodle{position:fixed;z-index:0;pointer-events:none;color:#719b7c;opacity:.55;font:42px 'Comfortaa';user-select:none}.d1{left:5%;top:15%;transform:rotate(-15deg)}.d2{right:6%;top:18%;color:#e58aa1}.d3{left:8%;bottom:12%;font-size:32px}.d4{right:7%;bottom:12%;color:#e58aa1;font-size:38px}
-#cakeScreen{position:relative;z-index:2;text-align:center;transition:opacity .6s,transform .6s}#cakeScreen.hide{opacity:0;transform:scale(.82);pointer-events:none}
-.cake-wrap{animation:float 4s ease-in-out infinite}@keyframes float{50%{transform:translateY(-12px)}}.cake{width:270px;height:260px;position:relative;margin:auto}.layer{position:absolute;left:50%;transform:translateX(-50%);border-radius:18px;outline:2px solid rgba(69,92,72,.6);outline-offset:-2px;box-shadow:3px 5px 0 #31554118,inset 0 -7px 12px #31554112}.layer1{bottom:0;width:260px;height:78px;background:linear-gradient(90deg,#f7fff5,#dcefe0,#f7fff5)}.layer2{bottom:72px;width:220px;height:70px;background:linear-gradient(90deg,#fffaf4,#e8f5e8,#fffaf4);z-index:2}.layer3{bottom:137px;width:180px;height:60px;z-index:3;background:linear-gradient(90deg,#a8d4b2,#72ae83,#a8d4b2);display:flex;justify-content:space-around;padding:0 15px;border-radius:15px 15px 9px 9px}.drip{position:absolute;width:15px;height:23px;top:-5px;background:inherit;border-radius:0 0 50% 50%}.layer3 .drip{height:27px;top:-8px;background:#a8d4b2}.drip1{left:10%}.drip2{left:50%}.drip3{left:85%}.drip4{left:20%}.drip5{left:60%}.drip6{left:90%}.drip7{left:20%}.drip8{left:80%}.sprinkle{position:absolute;width:10px;height:5px;border-radius:5px;transform:rotate(30deg)}.s1{background:#f27b9b;bottom:25px;left:20%}.s2{background:#477b61;bottom:43px;left:65%}.s3{background:#e8bd65;bottom:14px;left:85%}.s4{background:#f27b9b;bottom:85px;left:30%}.s5{background:#e8bd65;bottom:100px;left:75%}.s6{background:#70a982;bottom:80px;left:15%}.cherry-group{display:flex;flex-direction:column;align-items:center;position:relative;top:-20px;z-index:4}.rosette{width:35px;height:35px;border-radius:50%;background:#fffaf5;box-shadow:inset -4px -4px 8px #00000014,0 4px 8px #00000014}.cherry{width:21px;height:21px;border-radius:50%;position:absolute;top:-8px;background:radial-gradient(circle at 30% 30%,#ff9bb4,#d94f7a);box-shadow:0 3px 6px #d94f7a55}.candle{position:absolute;bottom:168px;left:50%;transform:translateX(-50%);width:14px;height:45px;border-radius:7px;z-index:10;cursor:pointer;background:repeating-linear-gradient(45deg,#477b61,#477b61 4px,#c6e7cc 4px,#c6e7cc 8px);box-shadow:0 4px 8px #0002}.flame{position:absolute;top:-21px;left:50%;transform:translateX(-50%);width:16px;height:22px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:radial-gradient(circle at 50% 70%,#fff3b0,#ffb703,#fb8500);animation:flicker .4s infinite alternate;box-shadow:0 0 20px #ffb703;transition:opacity .3s}.flame.off{opacity:0;animation:none}@keyframes flicker{to{transform:translateX(-50%) scale(1.15)}}.smoke{position:absolute;top:-20px;left:50%;width:6px;height:6px;border-radius:50%;background:#aaa;opacity:0}.smoke.animate{animation:puff 1s ease-out forwards}@keyframes puff{to{opacity:0;transform:translate(-50%,-40px) scale(3)}}.hint{margin-top:25px;color:var(--green);font:700 17px 'Comfortaa'}
-#app{display:none;position:relative;z-index:2;width:min(94vw,600px);opacity:0;transition:opacity .6s}#app.show{display:block;opacity:1}.paper{position:relative;overflow:hidden;padding:clamp(22px,5vw,36px);border-radius:30px 24px 32px 25px;background:rgba(255,251,244,.96);border:2px solid #718c73;outline:1px dashed #9dbda4;outline-offset:5px;box-shadow:5px 7px 0 #31554118,0 24px 55px #477b611c}.paper:before{content:'';position:absolute;width:220px;height:220px;border-radius:50%;background:#dff2e655;top:-140px;right:-80px;border:2px dashed #719b7c33}.paper>*{position:relative;z-index:1}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.brand{font:700 13px 'Comfortaa';color:var(--green);letter-spacing:.5px}.tiny-heart{color:var(--pink);font-size:22px}.eyebrow{font:700 12px 'Comfortaa';color:#8aa68e;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}h1{font:700 clamp(25px,6vw,34px) 'Comfortaa';line-height:1.25;color:var(--green);margin-bottom:10px}h2{font:700 clamp(22px,5vw,27px) 'Comfortaa';color:var(--green);margin-bottom:12px}p{font-size:16px;line-height:1.75;color:#625b50;margin:0 auto 13px;max-width:480px}.sub{color:#8b8276;font-size:14px}.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}.menu-btn{min-height:112px;border:1.5px dashed #8fb497;border-radius:20px;background:linear-gradient(145deg,#f4fbf4,#e4f3e7);color:var(--dark);padding:16px 12px;cursor:pointer;text-align:left;box-shadow:3px 4px 0 #477b6118;transition:transform .18s,box-shadow .18s}.menu-btn:hover{transform:translateY(-3px) rotate(-.5deg);box-shadow:0 10px 20px #477b6122}.menu-btn .symbol{display:block;font-size:27px;margin-bottom:8px}.menu-btn strong{display:block;font:700 16px 'Comfortaa';margin-bottom:4px}.menu-btn small{font-size:12px;color:#7a8e7c}.menu-btn.pink{background:linear-gradient(145deg,#fff5f6,#ffe9ef);border-color:#e6a1b3;color:#a94e6b}.menu-btn.wide{grid-column:1/-1;min-height:84px}.screen{display:none;animation:appear .35s ease}.screen.active{display:block}@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.back{border:1.5px solid #a9c8ae;border-radius:999px;background:#eff8ef;color:var(--green);padding:9px 15px;font:800 13px 'Nunito';cursor:pointer;margin-bottom:20px}.back:hover{background:#e1f1e3}.heart-mark{font-size:44px;display:inline-block;animation:beat 1.2s infinite}@keyframes beat{50%{transform:scale(1.15)}}.age{font-size:19px;color:var(--deep);font-weight:900;margin:5px 0}.date{color:#a67a43;font-weight:800;margin-bottom:16px}.timer-box{margin:20px 0;padding:16px 12px;border:1.5px dashed #8eaa91;border-radius:18px;background:linear-gradient(135deg,#eff9f0,#fff5f7);color:var(--green);font-size:14px;font-weight:800}.time{font-weight:900;color:#d65c83;margin:5px 0 12px;font-size:clamp(14px,3.8vw,18px)}.timer-divider{border-top:1px dashed #b7d9c0;padding-top:10px}.action{border:0;border-radius:999px;padding:13px 24px;margin-top:8px;color:white;font:900 15px 'Nunito';cursor:pointer;background:linear-gradient(135deg,#6eaa7d,#477b61);box-shadow:3px 4px 0 #31554130;transition:transform .18s}.action:hover{transform:translateY(-2px)}.action.pink{background:linear-gradient(135deg,#f58ca8,#d9537d);box-shadow:3px 4px 0 #9c526833}#heartTriggerBox{display:none;margin-top:16px;cursor:pointer;animation:appear .4s}.big-heart{font-size:66px;display:inline-block;animation:beat 1s infinite}#heartTriggerBox div:last-child{color:var(--deep);font-weight:800;font-size:13px}#secretMessage{display:none;margin-top:16px;padding:16px;border-radius:18px;color:var(--deep);font-weight:900;line-height:1.6;background:#fff0f5;border:2px dashed #f3a5ba;animation:appear .4s}.quote{padding:16px 18px;margin:14px 0;border-left:4px solid #80b28c;border-radius:0 16px 16px 0;background:#f0f8ef;text-align:left}.quote.pink{border-left-color:#e78da5;background:#fff1f4}.quote p{margin:0}.doodle-star{color:#e2b65d}
-/* Мини-игра */
-.game-intro{margin-bottom:14px}.game-stats{display:flex;justify-content:space-between;gap:10px;margin:14px 0;font-weight:900;color:var(--green)}.game-stats span{background:#edf7ee;border:1px dashed #a6c9ac;padding:8px 13px;border-radius:12px}.game-area{height:310px;position:relative;overflow:hidden;border:2px dashed #9dbda4;border-radius:20px;background:radial-gradient(circle at 20% 20%,#fff 0 2px,transparent 3px),linear-gradient(145deg,#f4fbf4,#e8f5e9);background-size:28px 28px,auto;touch-action:manipulation}.game-target{position:absolute;border:0;background:transparent;padding:4px;font-size:34px;cursor:pointer;line-height:1;filter:drop-shadow(1px 3px 2px #31554133);animation:wobble 1s ease-in-out infinite alternate}.game-target:hover{transform:scale(1.15)}@keyframes wobble{to{rotate:12deg}}.game-message{min-height:28px;margin-top:10px;color:var(--green);font-weight:800}.game-help{font-size:13px;color:#8b8276;margin-top:6px}.footer-note{text-align:center;color:#91a18e;font-size:11px;margin-top:22px}
-@media(max-width:480px){body{padding:16px 10px}.cake{transform:scale(.88);transform-origin:center bottom;margin-bottom:-30px}.menu-grid{gap:9px}.menu-btn{min-height:104px;padding:13px 10px}.menu-btn strong{font-size:14px}.paper{padding:23px 18px}.game-area{height:280px}p{font-size:15px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+
+:root {
+  --green:#477b61;
+  --dark:#315541;
+  --mint:#dff2e6;
+  --pink:#f27b9b;
+  --deep:#d94f7a;
+  --cream:#fffaf4;
+  --ink:#514d45;
+}
+
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body {
+  min-height:100vh;
+  overflow-x:hidden;
+  font-family:'Nunito',sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(rgba(71,123,97,.10) .8px,transparent .8px),
+    linear-gradient(135deg,#f8fff8,#fff8f1 55%,#e9f5e9);
+  background-size:13px 13px,auto;
+  display:grid;
+  place-items:center;
+  padding:22px 12px;
+}
+
+body:before,body:after {
+  content:'✦';
+  position:fixed;
+  pointer-events:none;
+  color:rgba(71,123,97,.14);
+  font-size:170px;
+}
+body:before {top:-65px;left:-42px}
+body:after {bottom:-85px;right:-20px}
+
+.doodle {
+  position:fixed;
+  z-index:0;
+  pointer-events:none;
+  color:#719b7c;
+  opacity:.55;
+  font:42px 'Comfortaa';
+}
+.d1 {left:5%;top:15%}
+.d2 {right:6%;top:18%;color:#e58aa1}
+.d3 {left:8%;bottom:12%;font-size:32px}
+.d4 {right:7%;bottom:12%;color:#e58aa1;font-size:38px}
+
+/* ТОРТ */
+
+#cakeScreen {
+  position:relative;
+  z-index:2;
+  text-align:center;
+  transition:opacity .6s,transform .6s;
+}
+#cakeScreen.hide {
+  opacity:0;
+  transform:scale(.82);
+  pointer-events:none;
+}
+
+.cake-wrap {
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float {
+  50% {transform:translateY(-12px)}
+}
+
+.cake {
+  width:270px;
+  height:260px;
+  position:relative;
+  margin:auto;
+}
+
+.layer {
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  border-radius:18px;
+  outline:2px solid rgba(69,92,72,.6);
+  outline-offset:-2px;
+  box-shadow:3px 5px 0 #31554118,inset 0 -7px 12px #31554112;
+}
+
+.layer1 {
+  bottom:0;
+  width:260px;
+  height:78px;
+  background:linear-gradient(90deg,#f7fff5,#dcefe0,#f7fff5);
+}
+.layer2 {
+  bottom:72px;
+  width:220px;
+  height:70px;
+  background:linear-gradient(90deg,#fffaf4,#e8f5e8,#fffaf4);
+  z-index:2;
+}
+.layer3 {
+  bottom:137px;
+  width:180px;
+  height:60px;
+  z-index:3;
+  background:linear-gradient(90deg,#a8d4b2,#72ae83,#a8d4b2);
+  display:flex;
+  justify-content:space-around;
+  padding:0 15px;
+  border-radius:15px 15px 9px 9px;
+}
+
+.drip {
+  position:absolute;
+  width:15px;
+  height:23px;
+  top:-5px;
+  background:inherit;
+  border-radius:0 0 50% 50%;
+}
+.layer3 .drip {
+  height:27px;
+  top:-8px;
+  background:#a8d4b2;
+}
+.drip1{left:10%}
+.drip2{left:50%}
+.drip3{left:85%}
+.drip4{left:20%}
+.drip5{left:60%}
+.drip6{left:90%}
+.drip7{left:20%}
+.drip8{left:80%}
+
+.sprinkle {
+  position:absolute;
+  width:10px;
+  height:5px;
+  border-radius:5px;
+  transform:rotate(30deg);
+}
+.s1{background:#f27b9b;bottom:25px;left:20%}
+.s2{background:#477b61;bottom:43px;left:65%}
+.s3{background:#e8bd65;bottom:14px;left:85%}
+.s4{background:#f27b9b;bottom:85px;left:30%}
+.s5{background:#e8bd65;bottom:100px;left:75%}
+.s6{background:#70a982;bottom:80px;left:15%}
+
+.cherry-group {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  position:relative;
+  top:-20px;
+  z-index:4;
+}
+.rosette {
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:#fffaf5;
+  box-shadow:inset -4px -4px 8px #00000014,0 4px 8px #00000014;
+}
+.cherry {
+  width:21px;
+  height:21px;
+  border-radius:50%;
+  position:absolute;
+  top:-8px;
+  background:radial-gradient(circle at 30% 30%,#ff9bb4,#d94f7a);
+}
+
+.candle {
+  position:absolute;
+  bottom:168px;
+  left:50%;
+  transform:translateX(-50%);
+  width:14px;
+  height:45px;
+  border-radius:7px;
+  z-index:10;
+  cursor:pointer;
+  background:repeating-linear-gradient(45deg,#477b61,#477b61 4px,#c6e7cc 4px,#c6e7cc 8px);
+}
+.flame {
+  position:absolute;
+  top:-21px;
+  left:50%;
+  transform:translateX(-50%);
+  width:16px;
+  height:22px;
+  border-radius:50%;
+  background:radial-gradient(circle at 50% 70%,#fff3b0,#ffb703,#fb8500);
+  animation:flicker .4s infinite alternate;
+  box-shadow:0 0 20px #ffb703;
+}
+.flame.off {opacity:0;animation:none}
+@keyframes flicker {
+  to {transform:translateX(-50%) scale(1.15)}
+}
+.smoke {
+  position:absolute;
+  top:-20px;
+  left:50%;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#aaa;
+  opacity:0;
+}
+.smoke.animate {animation:puff 1s ease-out forwards}
+@keyframes puff {
+  to {opacity:0;transform:translate(-50%,-40px) scale(3)}
+}
+.hint {
+  margin-top:25px;
+  color:var(--green);
+  font:700 17px 'Comfortaa';
+}
+
+/* ОСНОВНОЙ САЙТ */
+
+#app {
+  display:none;
+  position:relative;
+  z-index:2;
+  width:min(94vw,600px);
+  opacity:0;
+  transition:opacity .6s;
+}
+#app.show {
+  display:block;
+  opacity:1;
+}
+
+.paper {
+  position:relative;
+  overflow:hidden;
+  padding:clamp(22px,5vw,36px);
+  border-radius:30px 24px 32px 25px;
+  background:rgba(255,251,244,.96);
+  border:2px solid #718c73;
+  outline:1px dashed #9dbda4;
+  outline-offset:5px;
+  box-shadow:5px 7px 0 #31554118,0 24px 55px #477b611c;
+}
+.paper:before {
+  content:'';
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:#dff2e655;
+  top:-140px;
+  right:-80px;
+  border:2px dashed #719b7c33;
+}
+.paper>* {
+  position:relative;
+  z-index:1;
+}
+
+.topline {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:20px;
+}
+.brand {
+  font:700 13px 'Comfortaa';
+  color:var(--green);
+}
+.tiny-heart {
+  color:var(--pink);
+  font-size:22px;
+}
+.eyebrow {
+  font:700 12px 'Comfortaa';
+  color:#8aa68e;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+h1 {
+  font:700 clamp(25px,6vw,34px) 'Comfortaa';
+  line-height:1.25;
+  color:var(--green);
+  margin-bottom:10px;
+}
+p {
+  font-size:16px;
+  line-height:1.75;
+  color:#625b50;
+  margin:0 auto 13px;
+  max-width:480px;
+}
+.sub {
+  color:#8b8276;
+  font-size:14px;
+}
+
+/* КНОПКИ МЕНЮ */
+
+.menu-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:24px;
+}
+.menu-btn {
+  min-height:112px;
+  border:1.5px dashed #8fb497;
+  border-radius:20px;
+  background:linear-gradient(145deg,#f4fbf4,#e4f3e7);
+  color:var(--dark);
+  padding:16px 12px;
+  cursor:pointer;
+  text-align:left;
+  box-shadow:3px 4px 0 #477b6118;
+  transition:transform .18s,box-shadow .18s;
+}
+.menu-btn:hover {
+  transform:translateY(-3px);
+  box-shadow:0 10px 20px #477b6122;
+}
+.menu-btn .symbol {
+  display:block;
+  font-size:27px;
+  margin-bottom:8px;
+}
+.menu-btn strong {
+  display:block;
+  font:700 16px 'Comfortaa';
+  margin-bottom:4px;
+}
+.menu-btn small {
+  font-size:12px;
+  color:#7a8e7c;
+}
+.menu-btn.pink {
+  background:linear-gradient(145deg,#fff5f6,#ffe9ef);
+  border-color:#e6a1b3;
+  color:#a94e6b;
+}
+.menu-btn.wide {
+  grid-column:1/-1;
+  min-height:84px;
+}
+
+/* ОКНА */
+
+.screen {display:none;animation:appear .35s ease}
+.screen.active {display:block}
+@keyframes appear {
+  from {opacity:0;transform:translateY(8px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+.back {
+  border:1.5px solid #a9c8ae;
+  border-radius:999px;
+  background:#eff8ef;
+  color:var(--green);
+  padding:10px 17px;
+  font:800 14px 'Nunito';
+  cursor:pointer;
+  margin-bottom:20px;
+  min-height:44px;
+}
+.back:hover {background:#e1f1e3}
+
+.heart-mark {
+  font-size:44px;
+  display:inline-block;
+  animation:beat 1.2s infinite;
+}
+@keyframes beat {
+  50% {transform:scale(1.15)}
+}
+.age {
+  font-size:19px;
+  color:var(--deep);
+  font-weight:900;
+  margin:5px 0;
+}
+.date {
+  color:#a67a43;
+  font-weight:800;
+  margin-bottom:16px;
+}
+.timer-box {
+  margin:20px 0;
+  padding:16px 12px;
+  border:1.5px dashed #8eaa91;
+  border-radius:18px;
+  background:linear-gradient(135deg,#eff9f0,#fff5f7);
+  color:var(--green);
+  font-size:14px;
+  font-weight:800;
+}
+.time {
+  font-weight:900;
+  color:#d65c83;
+  margin:5px 0 12px;
+  font-size:clamp(14px,3.8vw,18px);
+}
+.timer-divider {
+  border-top:1px dashed #b7d9c0;
+  padding-top:10px;
+}
+.action {
+  border:0;
+  border-radius:999px;
+  padding:13px 24px;
+  margin-top:8px;
+  color:white;
+  font:900 15px 'Nunito';
+  cursor:pointer;
+  background:linear-gradient(135deg,#6eaa7d,#477b61);
+  box-shadow:3px 4px 0 #31554130;
+  min-height:46px;
+}
+.action.pink {
+  background:linear-gradient(135deg,#f58ca8,#d9537d);
+}
+#heartTriggerBox {
+  display:none;
+  margin-top:16px;
+  cursor:pointer;
+  animation:appear .4s;
+}
+.big-heart {
+  font-size:66px;
+  display:inline-block;
+  animation:beat 1s infinite;
+}
+#heartTriggerBox div:last-child {
+  color:var(--deep);
+  font-weight:800;
+  font-size:13px;
+}
+#secretMessage {
+  display:none;
+  margin-top:16px;
+  padding:16px;
+  border-radius:18px;
+  color:var(--deep);
+  font-weight:900;
+  line-height:1.6;
+  background:#fff0f5;
+  border:2px dashed #f3a5ba;
+  animation:appear .4s;
+}
+.quote {
+  padding:16px 18px;
+  margin:14px 0;
+  border-left:4px solid #80b28c;
+  border-radius:0 16px 16px 0;
+  background:#f0f8ef;
+  text-align:left;
+}
+.quote.pink {
+  border-left-color:#e78da5;
+  background:#fff1f4;
+}
+.quote p {margin:0}
+.footer-note {
+  text-align:center;
+  color:#91a18e;
+  font-size:11px;
+  margin-top:22px;
+}
+
+/* МИНИ-ИГРА */
+
+.game-intro {margin-bottom:14px}
+.game-stats {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin:14px 0;
+  font-weight:900;
+  color:var(--green);
+}
+.game-stats span {
+  background:#edf7ee;
+  border:1px dashed #a6c9ac;
+  padding:8px 13px;
+  border-radius:12px;
+}
+.game-area {
+  height:310px;
+  position:relative;
+  overflow:hidden;
+  border:2px dashed #9dbda4;
+  border-radius:20px;
+  background:linear-gradient(145deg,#f4fbf4,#e8f5e9);
+  touch-action:manipulation;
+  user-select:none;
+}
+.game-target {
+  position:absolute;
+  border:0;
+  background:transparent;
+  padding:4px;
+  font-size:34px;
+  cursor:pointer;
+  line-height:1;
+  animation:wobble 1s ease-in-out infinite alternate;
+}
+@keyframes wobble {
+  to {rotate:12deg}
+}
+.game-message {
+  min-height:28px;
+  margin-top:10px;
+  color:var(--green);
+  font-weight:800;
+}
+.game-help {
+  font-size:13px;
+  color:#8b8276;
+  margin-top:6px;
+}
+
+/* МОБИЛЬНАЯ ПАНЕЛЬ */
+
+#mobileNav {display:none}
+
+@media(max-width:640px) {
+  body {
+    display:block;
+    min-height:100svh;
+    padding:16px 10px calc(92px + env(safe-area-inset-bottom));
+  }
+  #cakeScreen {
+    min-height:calc(100svh - 110px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+  }
+  .cake {
+    width:min(270px,82vw);
+    transform:scale(.9);
+  }
+  #app {
+    width:100%;
+    max-width:560px;
+    margin:0 auto;
+  }
+  .paper {
+    padding:22px 17px;
+    border-radius:25px 20px 27px 21px;
+  }
+  .menu-grid {
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .menu-btn {
+    min-height:116px;
+    padding:14px 11px;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .menu-btn.wide {min-height:100px}
+  .back,.action {
+    min-height:48px;
+    padding:13px 20px;
+    touch-action:manipulation;
+  }
+  .game-area {
+    height:min(42svh,340px);
+    min-height:240px;
+  }
+  .game-target {
+    min-width:48px;
+    min-height:48px;
+    display:grid;
+    place-items:center;
+    font-size:32px;
+    touch-action:manipulation;
+  }
+  #mobileNav {
+    position:fixed;
+    z-index:30;
+    left:10px;
+    right:10px;
+    bottom:calc(9px + env(safe-area-inset-bottom));
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    padding:8px;
+    border:1px solid #a9c8ae;
+    border-radius:20px;
+    background:rgba(255,250,244,.96);
+    box-shadow:0 8px 28px #31554125;
+    backdrop-filter:blur(12px);
+  }
+  #mobileNav button {
+    min-height:48px;
+    border:1px solid #c5ddc8;
+    border-radius:14px;
+    background:#eff8ef;
+    color:var(--dark);
+    font:800 13px 'Nunito';
+    touch-action:manipulation;
+  }
+  #mobileNav button:active {
+    transform:scale(.97);
+    background:#dff2e6;
+  }
+  #mobileNav button:disabled {opacity:.42}
+  #mobileNav button.current {
+    background:#477b61;
+    color:white;
+    border-color:#477b61;
+  }
+}
+
+@media(max-width:370px) {
+  .paper {padding:19px 13px}
+  .menu-btn {min-height:108px}
+  .menu-btn strong {font-size:13px}
+  .menu-btn small {font-size:11px}
+  .game-stats span {padding:8px 9px;font-size:13px}
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*:before,*:after {
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+  }
+}
 </style>
 </head>
+
 <body>
-<div class="doodle d1">✧</div><div class="doodle d2">♡</div><div class="doodle d3">✿</div><div class="doodle d4">✦</div>
+
+<div class="doodle d1">✧</div>
+<div class="doodle d2">♡</div>
+<div class="doodle d3">✿</div>
+<div class="doodle d4">✦</div>
+
+<!-- СТАРТОВЫЙ ТОРТ -->
 
 <div id="cakeScreen">
-<div class="cake-wrap">
-<div class="cake">
-<div class="layer layer1">
-<div class="drip drip1"></div><div class="drip drip2"></div><div class="drip drip3"></div>
-<div class="sprinkle s1"></div><div class="sprinkle s2"></div><div class="sprinkle s3"></div>
+  <div class="cake-wrap">
+    <div class="cake">
+
+      <div class="layer layer1">
+        <div class="drip drip1"></div>
+        <div class="drip drip2"></div>
+        <div class="drip drip3"></div>
+        <div class="sprinkle s1"></div>
+        <div class="sprinkle s2"></div>
+        <div class="sprinkle s3"></div>
+      </div>
+
+      <div class="layer layer2">
+        <div class="drip drip4"></div>
+        <div class="drip drip5"></div>
+        <div class="drip drip6"></div>
+        <div class="sprinkle s4"></div>
+        <div class="sprinkle s5"></div>
+        <div class="sprinkle s6"></div>
+      </div>
+
+      <div class="layer layer3">
+        <div class="drip drip7"></div>
+        <div class="drip drip8"></div>
+        <div class="cherry-group">
+          <div class="rosette"><div class="cherry"></div></div>
+        </div>
+        <div class="cherry-group">
+          <div class="rosette"><div class="cherry"></div></div>
+        </div>
+      </div>
+
+      <div class="candle" id="candle" onclick="blowCandle()">
+        <div class="flame"></div>
+        <div class="smoke"></div>
+      </div>
+
+    </div>
+  </div>
+  <div class="hint" id="hintText">Задуй свечу</div>
 </div>
-<div class="layer layer2">
-<div class="drip drip4"></div><div class="drip drip5"></div><div class="drip drip6"></div>
-<div class="sprinkle s4"></div><div class="sprinkle s5"></div><div class="sprinkle s6"></div>
-</div>
-<div class="layer layer3">
-<div class="drip drip7"></div><div class="drip drip8"></div>
-<div class="cherry-group"><div class="rosette"><div class="cherry"></div></div></div>
-<div class="cherry-group"><div class="rosette"><div class="cherry"></div></div></div>
-</div>
-<div class="candle" id="candle" onclick="blowCandle()">
-<div class="flame"></div><div class="smoke"></div>
-</div>
-</div>
-</div>
-<div class="hint" id="hintText">Задуй свечу</div>
-</div>
+
+<!-- ОСНОВНОЙ САЙТ -->
 
 <div id="app">
 <div class="paper">
-<div class="topline">
-<div class="brand">MILANA'S SWEET DAY · 14</div>
-<div class="tiny-heart">♡</div>
+
+  <div class="topline">
+    <div class="brand">MILANA'S SWEET DAY · 14</div>
+    <div class="tiny-heart">♡</div>
+  </div>
+
+  <!-- ГЛАВНАЯ -->
+
+  <section id="home" class="screen active">
+    <div class="eyebrow">маленький праздник для тебя</div>
+    <h1>Главная</h1>
+    <p class="sub">Выбирай, куда отправимся дальше</p>
+
+    <div class="menu-grid">
+
+      <button class="menu-btn" onclick="showScreen('greeting')">
+        <span class="symbol">✿</span>
+        <strong>Поздравление</strong>
+        <small>Самые важные слова</small>
+      </button>
+
+      <button class="menu-btn pink" onclick="showScreen('texts')">
+        <span class="symbol">♡</span>
+        <strong>Тексты</strong>
+        <small>Тёплые слова и пожелания</small>
+      </button>
+
+      <button class="menu-btn wide" onclick="showScreen('game')">
+        <span class="symbol">🍬</span>
+        <strong>Мини-игра: конфетный дождь</strong>
+        <small>Поймай 10 конфет за 20 секунд!</small>
+      </button>
+
+    </div>
+
+    <div class="footer-note">
+      сделано с любовью и щепоткой волшебства
+    </div>
+  </section>
+
+  <!-- ПОЗДРАВЛЕНИЕ -->
+
+  <section id="greeting" class="screen">
+    <button class="back" onclick="showScreen('home')">← На главную</button>
+
+    <div class="eyebrow">самое главное</div>
+    <div class="heart-mark">♡</div>
+
+    <h1>С днём рождения, Конфетка!</h1>
+    <div class="age">Тебе 14</div>
+    <div class="date">28 ноября</div>
+
+    <p>
+      Моя любимая <b>Бусинка</b>, ты — самое сладкое,
+      что случилось в моей жизни.
+    </p>
+
+    <div class="timer-box">
+      <div>Мы знакомы уже:</div>
+      <div class="time" id="timerDate1">Загрузка...</div>
+
+      <div class="timer-divider">Мы вместе уже:</div>
+      <div class="time" id="timerDate2" style="margin-bottom:0">
+        Загрузка...
+      </div>
+    </div>
+
+    <button class="action pink" id="loveBtn" onclick="triggerLove()">
+      Нажми на меня
+    </button>
+
+    <div id="heartTriggerBox" onclick="explodeHeart()">
+      <div class="big-heart">♥</div>
+      <div>(нажми на сердце)</div>
+    </div>
+
+    <div id="secretMessage">
+      С днем рождения конфеткаааа, люблю тебя и это не единственный подарок на сегодня.
+    </div>
+  </section>
+
+  <!-- ТЕКСТЫ -->
+
+  <section id="texts" class="screen">
+    <button class="back" onclick="showScreen('home')">← На главную</button>
+
+    <div class="eyebrow">от всего сердца</div>
+    <h1>Немного важных слов</h1>
+
+    <div class="quote">
+      <p>
+        14 — это круто: впереди столько всего.
+        Пусть каждый день будет таким же ярким и вкусным,
+        как ты. Спасибо, что ты рядом.
+      </p>
+    </div>
+
+    <div class="quote pink">
+      <p>
+        Моя любимая <b>Бусинка</b>, ты — самое сладкое,
+        что случилось в моей жизни.
+      </p>
+    </div>
+
+    <p class="sub">
+      Пусть этот день будет наполнен улыбками,
+      приятными сюрпризами и маленькими чудесами.
+    </p>
+  </section>
+
+  <!-- МИНИ-ИГРА -->
+
+  <section id="game" class="screen">
+    <button class="back" onclick="stopGame();showScreen('home')">
+      ← На главную
+    </button>
+
+    <div class="eyebrow">маленькое испытание</div>
+    <h1>Конфетный дождь</h1>
+
+    <p class="game-intro">
+      Лови конфетки! Нужно собрать 10 штук,
+      пока не закончились 20 секунд.
+    </p>
+
+    <div class="game-stats">
+      <span>Собрано: <b id="score">0</b>/10</span>
+      <span>Время: <b id="timeLeft">20</b> сек.</span>
+    </div>
+
+    <div class="game-area" id="gameArea">
+      <div style="position:absolute;inset:0;display:grid;place-items:center;color:#8ba58e;font-weight:800;text-align:center;padding:20px"
+           id="gameStartText">
+        Нажми «Начать игру»<br>и лови конфетки!
+      </div>
+    </div>
+
+    <div class="game-message" id="gameMessage">
+      Готова? Поехали!
+    </div>
+
+    <button class="action" id="startGameBtn" onclick="startGame()">
+      Начать игру
+    </button>
+
+    <div class="game-help">
+      Нажимай на конфетки пальцем или мышкой.
+      Игра работает и на телефоне.
+    </div>
+  </section>
+
+</div>
 </div>
 
-<section id="home" class="screen active">
-<div class="eyebrow">маленький праздник для тебя</div>
-<h1>Главная</h1>
-<p class="sub">Выбирай, куда отправимся дальше</p>
-<div class="menu-grid">
-<button class="menu-btn" onclick="showScreen('greeting')">
-<span class="symbol">✿</span><strong>Поздравление</strong>
-<small>Самые важные слова</small>
-</button>
-<button class="menu-btn pink" onclick="showScreen('texts')">
-<span class="symbol">♡</span><strong>Тексты</strong>
-<small>Тёплые слова и пожелания</small>
-</button>
-<button class="menu-btn wide" onclick="showScreen('game')">
-<span class="symbol">🍬</span><strong>Мини-игра: конфетный дождь</strong>
-<small>Поймай 10 конфет за 20 секунд!</small>
-</button>
-</div>
-<div class="footer-note">сделано с любовью и щепоткой волшебства</div>
-</section>
+<!-- НИЖНЕЕ МОБИЛЬНОЕ УПРАВЛЕНИЕ -->
 
-<section id="greeting" class="screen">
-<button class="back" onclick="showScreen('home')">← На главную</button>
-<div class="eyebrow">самое главное</div>
-<div class="heart-mark">♡</div>
-<h1>С днём рождения, Конфетка!</h1>
-<div class="age">Тебе 14</div>
-<div class="date">28 ноября</div>
-<p>Моя любимая <b>Бусинка</b>, ты — самое сладкое, что случилось в моей жизни.</p>
-<div class="timer-box">
-<div>Мы знакомы уже:</div>
-<div class="time" id="timerDate1">Загрузка...</div>
-<div class="timer-divider">Мы вместе уже:</div>
-<div class="time" id="timerDate2" style="margin-bottom:0">Загрузка...</div>
-</div>
-<button class="action pink" id="loveBtn" onclick="triggerLove()">Нажми на меня</button>
-<div id="heartTriggerBox" onclick="explodeHeart">
-<div class="big-heart">♥</div><div>(нажми на сердце)</div>
-</div>
-<div id="secretMessage">С днем рождения конфеткаааа, люблю тебя и это не единственный подарок на сегодня.</div>
-</section>
-
-<section id="texts" class="screen">
-<button class="back" onclick="showScreen('home')">← На главную</button>
-<div class="eyebrow">от всего сердца</div>
-<h1>Немного важных слов</h1>
-<div class="quote"><p>14 — это круто: впереди столько всего. Пусть каждый день будет таким же ярким и вкусным, как ты. Спасибо, что ты рядом.</p></div>
-<div class="quote pink"><p>Моя любимая <b>Бусинка</b>, ты — самое сладкое, что случилось в моей жизни.</p></div>
-<p class="sub">Пусть этот день будет наполнен улыбками, приятными сюрпризами и маленькими чудесами.</p>
-</section>
-
-<section id="game" class="screen">
-<button class="back" onclick="stopGame();showScreen('home')">← На главную</button>
-<div class="eyebrow">маленькое испытание</div>
-<h1>Конфетный дождь</h1>
-<p class="game-intro">Лови конфетки! Нужно собрать 10 штук, пока не закончились 20 секунд.</p>
-<div class="game-stats">
-<span>Собрано: <b id="score">0</b>/10</span>
-<span>Время: <b id="timeLeft">20</b> сек.</span>
-</div>
-<div class="game-area" id="gameArea">
-<div style="position:absolute;inset:0;display:grid;place-items:center;color:#8ba58e;font-weight:800;text-align:center;padding:20px" id="gameStartText">Нажми «Начать игру»<br>и лови конфетки!</div>
-</div>
-<div class="game-message" id="gameMessage">Готова? Поехали!</div>
-<button class="action" id="startGameBtn" onclick="startGame()">Начать игру</button>
-<div class="game-help">Нажимай на конфетки пальцем или мышкой. Игра работает и на телефоне.</div>
-</section>
-</div>
-</div>
+<nav id="mobileNav" aria-label="Управление сайтом">
+  <button id="navHome" onclick="showScreen('home')">Главная</button>
+  <button id="navBack" onclick="mobileBack()">Назад</button>
+  <button id="navGame" onclick="showScreen('game')">Мини-игра</button>
+</nav>
 
 <script>
-let opened=false,loveTriggered=false,timerStarted=false,gameInterval=null,spawnInterval=null,score=0,timeLeft=20,gameRunning=false;
+let opened = false;
+let loveTriggered = false;
+let timerStarted = false;
 
-function blowCandle(){
-if(opened)return;
-opened=true;
-const c=document.getElementById('candle');
-c.style.cursor='default';
-c.querySelector('.flame').classList.add('off');
-c.querySelector('.smoke').classList.add('animate');
-document.getElementById('hintText').textContent='';
-setTimeout(()=>{
-document.getElementById('cakeScreen').classList.add('hide');
-setTimeout(()=>{
-document.getElementById('cakeScreen').style.display='none';
-document.getElementById('app').classList.add('show');
-startTimer();
-},620);
-},450);
-}
+let gameInterval = null;
+let spawnInterval = null;
+let score = 0;
+let timeLeft = 20;
+let gameRunning = false;
 
-function showScreen(id){
-document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-if(id!=='game')stopGame();
-}
+/* ЗАДУВАЕМ СВЕЧУ */
 
-function startTimer(){
-if(timerStarted)return;
-timerStarted=true;
-const meet=new Date(2025,3,24);
-const dating=new Date(2025,1,12);
-function update(){
-const now=Date.now();
-[['timerDate1',meet],['timerDate2',dating]].forEach(([id,date])=>{
-const ms=now-date.getTime();
-if(ms<0){
-document.getElementById(id).textContent='Скоро начнётся!';
-return;
-}
-const d=Math.floor(ms/86400000);
-const h=Math.floor(ms%86400000/3600000);
-const m=Math.floor(ms%3600000/60000);
-const s=Math.floor(ms%60000/1000);
-document.getElementById(id).textContent=`${d} дн. ${h} ч. ${m} мин. ${s} сек.`;
-});
-}
-update();
-setInterval(update,1000);
+function blowCandle() {
+  if(opened) return;
+
+  opened = true;
+
+  const candle = document.getElementById('candle');
+
+  candle.style.cursor = 'default';
+  candle.querySelector('.flame').classList.add('off');
+  candle.querySelector('.smoke').classList.add('animate');
+
+  document.getElementById('hintText').textContent = '';
+
+  setTimeout(() => {
+    document.getElementById('cakeScreen').classList.add('hide');
+
+    setTimeout(() => {
+      document.getElementById('cakeScreen').style.display = 'none';
+      document.getElementById('app').classList.add('show');
+      syncMobileNav('home');
+      startTimer();
+    },620);
+
+  },450);
 }
 
-function triggerLove(){
-if(loveTriggered)return;
-loveTriggered=true;
-document.getElementById('loveBtn').style.display='none';
-document.getElementById('heartTriggerBox').style.display='block';
+/* МОБИЛЬНАЯ НАВИГАЦИЯ */
+
+function syncMobileNav(id) {
+  const home = document.getElementById('navHome');
+  const back = document.getElementById('navBack');
+  const game = document.getElementById('navGame');
+
+  home.classList.toggle('current',id === 'home');
+  game.classList.toggle('current',id === 'game');
+  back.disabled = id === 'home';
 }
 
-function explodeHeart(){
-document.getElementById('heartTriggerBox').style.display='none';
-document.getElementById('secretMessage').style.display='block';
-const colors=['#477b61','#f27b9b','#80b78b','#e6bd68'];
-for(let i=0;i<38;i++){
-const el=document.createElement('i');
-el.textContent=['♥','✦','♡','✿'][i%4];
-el.style.cssText=`position:fixed;z-index:10;left:${48+Math.random()*4}%;top:${48+Math.random()*4}%;font-style:normal;font-size:${14+Math.random()*18}px;color:${colors[i%4]};pointer-events:none;transition:transform 1.2s ease-out,opacity 1.2s`;
-document.body.appendChild(el);
-requestAnimationFrame(()=>{
-el.style.transform=`translate(${(Math.random()-.5)*420}px,${(Math.random()-.5)*520}px) rotate(${Math.random()*360}deg)`;
-el.style.opacity='0';
-});
-setTimeout(()=>el.remove(),1300);
-}
+function mobileBack() {
+  const active = document.querySelector('.screen.active');
+
+  if(active && active.id !== 'home') {
+    showScreen('home');
+  }
 }
 
-function clearGame(){
-clearInterval(gameInterval);
-clearInterval(spawnInterval);
-gameInterval=spawnInterval=null;
-gameRunning=false;
-document.querySelectorAll('.game-target').forEach(x=>x.remove());
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.classList.remove('active');
+  });
+
+  document.getElementById(id).classList.add('active');
+
+  syncMobileNav(id);
+
+  if(id !== 'game') {
+    stopGame();
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
 }
 
-function stopGame(){
-clearGame();
-}
+/* ТАЙМЕРЫ */
 
-function startGame(){
-clearGame();
-score=0;
-timeLeft=20;
-gameRunning=true;
-document.getElementById('score').textContent=score;
-document.getElementById('timeLeft').textContent=timeLeft;
-document.getElementById('gameMessage').textContent='Лови конфетки!';
-document.getElementById('gameStartText').style.display='none';
-document.getElementById('startGameBtn').textContent='Начать заново';
-const area=document.getElementById('gameArea');
+function startTimer() {
+  if(timerStarted) return;
 
-function spawn(){
-if(!gameRunning)return;
-const candy=document.createElement('button');
-candy.className='game-target';
-candy.type='button';
-candy.textContent=['🍬','🍭','🍬','🍭'][Math.floor(Math.random()*4)];
-candy.style.left=(5+Math.random()*82)+'%';
-candy.style.top=(5+Math.random()*78)+'%';
-candy.setAttribute('aria-label','Поймать конфету');
-candy.onclick=()=>{
-if(!gameRunning)return;
-score++;
-document.getElementById('score').textContent=score;
-candy.remove();
-if(score>=10)finishGame(true);
-};
-area.appendChild(candy);
-setTimeout(()=>candy.remove(),1500);
-}
+  timerStarted = true;
 
-spawn();
-spawnInterval=setInterval(spawn,650);
-gameInterval=setInterval(()=>{
-timeLeft--;
-document.getElementById('timeLeft').textContent=timeLeft;
-if(timeLeft<=0)finishGame(false);
-},1000);
-}
+  const meet = new Date(2025,3,24);
+  const dating = new Date(2025,1,12);
 
-function finishGame(won){
-clearGame();
-document.getElementById('gameMessage').textContent=won?'УРА! Все 10 конфет пойманы! Ты победила!':'Время вышло! Попробуй ещё раз — у тебя получится!';
-document.getElementById('gameStartText').style.display='grid';
-document.getElementById('gameStartText').innerHTML=won?'Победа!<br>Конфетный мастер!':'Попробуем ещё раз?';
-document.getElementById('startGameBtn').textContent='Играть ещё раз';
-}
-</script>
-</body>
-</html>
+  func
