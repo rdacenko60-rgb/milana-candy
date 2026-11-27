@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Милане-Конфетке — 14</title>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Nunito:wght@400;700;800;900&display=swap');
 
@@ -36,7 +37,7 @@ body {
 
 #cakeScreen {
   position:relative;
-  z-index:2;
+  z-index:10;
   text-align:center;
   transition:opacity .6s,transform .6s;
 }
@@ -60,6 +61,7 @@ body {
   height:260px;
   position:relative;
   margin:auto;
+  isolation:isolate;
 }
 
 .layer {
@@ -69,6 +71,7 @@ body {
   border-radius:18px;
   outline:2px solid rgba(69,92,72,.6);
   box-shadow:3px 5px 0 #31554118;
+  pointer-events:none;
 }
 
 .layer1 {
@@ -76,6 +79,7 @@ body {
   width:260px;
   height:78px;
   background:linear-gradient(90deg,#f7fff5,#dcefe0,#f7fff5);
+  z-index:1;
 }
 
 .layer2 {
@@ -134,24 +138,34 @@ body {
 .s5{background:#e8bd65;bottom:100px;left:75%}
 .s6{background:#70a982;bottom:80px;left:15%}
 
+/* Кнопка свечи */
+
 .candle-button {
   position:absolute;
-  z-index:20;
-  bottom:150px;
+  z-index:50;
+  top:0;
   left:50%;
   transform:translateX(-50%);
-  width:90px;
-  height:105px;
+  width:110px;
+  height:120px;
   border:0;
+  outline:none;
   background:transparent;
   cursor:pointer;
   display:flex;
   align-items:flex-end;
   justify-content:center;
-  padding:0;
+  padding:0 0 0;
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
   pointer-events:auto;
+  user-select:none;
+}
+
+.candle-button:focus-visible {
+  outline:3px dashed var(--pink);
+  outline-offset:3px;
+  border-radius:20px;
 }
 
 .candle {
@@ -164,6 +178,7 @@ body {
     #c6e7cc 4px,#c6e7cc 8px
   );
   box-shadow:0 4px 8px #0002;
+  pointer-events:none;
 }
 
 .flame {
@@ -206,7 +221,11 @@ body {
 }
 
 @keyframes puff {
-  to {
+  0% {
+    opacity:.7;
+    transform:translate(-50%,0) scale(1);
+  }
+  100% {
     opacity:0;
     transform:translate(-50%,-40px) scale(3);
   }
@@ -346,10 +365,11 @@ p {
   min-height:84px;
 }
 
-/* ПЛАВНОЕ ПЕРЕЛИСТЫВАНИЕ */
+/* ПЛАВНЫЕ ПЕРЕХОДЫ */
 
 .screen-stage {
   position:relative;
+  min-height:180px;
 }
 
 .screen {
@@ -765,6 +785,8 @@ p {
 
 <body>
 
+<!-- СТАРТОВЫЙ ЭКРАН -->
+
 <div id="cakeScreen">
   <div class="cake-wrap">
     <div class="cake">
@@ -792,10 +814,11 @@ p {
         <div class="drip drip8"></div>
       </div>
 
-      <button class="candle-button" id="candleButton" type="button" aria-label="Задуть свечу">
+      <button class="candle-button" id="candleButton"
+        type="button" aria-label="Задуть свечу">
         <span class="candle">
-          <span class="flame"></span>
-          <span class="smoke"></span>
+          <span class="flame" id="flame"></span>
+          <span class="smoke" id="smoke"></span>
         </span>
       </button>
 
@@ -804,6 +827,8 @@ p {
 
   <div class="hint" id="hintText">Нажми на свечку</div>
 </div>
+
+<!-- ОСНОВНОЙ САЙТ -->
 
 <div id="app">
 <div class="paper">
@@ -907,11 +932,9 @@ p {
     <div id="puzzlePlay">
 
       <div class="puzzle-layout">
-
         <div class="puzzle-board" id="puzzleBoard" aria-label="Пазл из девяти частей"></div>
 
         <div class="puzzle-side">
-
           <div class="stat-card">
             Ходы
             <b id="moves">0</b>
@@ -923,7 +946,6 @@ p {
           </div>
 
           <button class="action" id="shuffleBtn" onclick="newPuzzle()">Перемешать</button>
-
         </div>
       </div>
 
@@ -940,36 +962,25 @@ p {
     <div class="puzzle-win" id="puzzleWin">
 
       <svg viewBox="0 0 220 170" role="img" aria-label="Нарисованный праздничный тортик">
-
         <ellipse cx="110" cy="145" rx="88" ry="12" fill="#d9e9d8"/>
-
         <path d="M37 91 Q37 82 48 82 H172 Q183 82 183 94 V126 Q183 139 170 139 H50 Q37 139 37 126Z"
         fill="#dff2e6" stroke="#477b61" stroke-width="3"/>
-
         <path d="M37 94 Q52 102 66 94 Q80 105 95 94 Q110 104 125 94 Q140 105 155 94 Q169 102 183 94 V108 Q174 117 165 108 Q151 120 137 108 Q122 119 110 108 Q96 120 82 108 Q65 119 52 108 Q43 113 37 108Z"
         fill="#a8d4b2" stroke="#477b61" stroke-width="2"/>
-
         <path d="M52 76 Q52 57 70 57 H150 Q168 57 168 76 V96 H52Z"
         fill="#fff1f4" stroke="#477b61" stroke-width="3"/>
-
         <path d="M52 78 Q66 86 79 78 Q93 88 107 78 Q121 88 136 78 Q152 88 168 78 V91 Q159 99 148 91 Q135 102 122 91 Q108 101 95 91 Q80 101 68 91 Q59 96 52 91Z"
         fill="#f3a6b8" stroke="#d97d98" stroke-width="1.5"/>
-
         <path d="M105 57 V35 Q105 27 111 27 Q117 27 117 35 V57"
         fill="#dff2e6" stroke="#477b61" stroke-width="2.5"/>
-
         <path d="M111 27 Q97 13 111 3 Q125 14 111 27Z"
         fill="#ffbf55" stroke="#e99a35" stroke-width="2"/>
-
         <circle cx="76" cy="69" r="5" fill="#f27b9b"/>
         <circle cx="144" cy="68" r="5" fill="#80b28c"/>
-
         <path d="M91 124 Q110 111 129 124"
         fill="none" stroke="#477b61" stroke-width="3" stroke-linecap="round"/>
-
         <path d="M110 119 C96 108 88 125 110 137 C132 125 124 108 110 119Z"
         fill="#f27b9b" stroke="#d94f7a" stroke-width="1.5"/>
-
       </svg>
 
       <h2>Ты справилась!</h2>
@@ -992,27 +1003,11 @@ p {
 </nav>
 
 <script>
-let opened=false;
-let loveTriggered=false;
-let timerStarted=false;
-let moves=0;
-let tiles=[];
-let selectedTile=null;
-let transitionLock=false;
+/* ОСНОВНЫЕ ПЕРЕМЕННЫЕ */
 
-const solved=[0,1,2,3,4,5,6,7,8];
-
-/* РИСОВАННАЯ КАРТИНКА ДЛЯ ПАЗЛА */
-
-const cakeSvg=`
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
-
-<rect width="300" height="300" rx="24" fill="#f5fbef"/>
-
-<circle cx="36" cy="38" r="5" fill="#f3a6b8"/>
-<circle cx="260" cy="52" r="6" fill="#a8d4b2"/>
-
-<path d="M35 105l8-15 8 15-8 15zM252 135l7-13 7 13-7 13z"
-fill="#e9c477"/>
-
-<ellipse cx="150" 
+let opened = false;
+let loveTriggered = false;
+let moves = 0;
+let tiles = [];
+let selectedTile = null;
+let transition
