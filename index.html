@@ -1011,3 +1011,255 @@ let moves = 0;
 let tiles = [];
 let selectedTile = null;
 let transition
+
+Lock = false;
+
+const solved = [0,1,2,3,4,5,6,7,8];
+
+const candleButton = document.getElementById('candleButton');
+const cakeScreen = document.getElementById('cakeScreen');
+const app = document.getElementById('app');
+const flame = document.getElementById('flame');
+const smoke = document.getElementById('smoke');
+const hintText = document.getElementById('hintText');
+
+/* СВЕЧА */
+
+function blowCandle(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  if (opened) return;
+  opened = true;
+
+  flame.classList.add('off');
+  smoke.classList.remove('animate');
+  void smoke.offsetWidth;
+  smoke.classList.add('animate');
+
+  hintText.textContent = 'С днём рождения!';
+  candleButton.disabled = true;
+
+  setTimeout(() => {
+    cakeScreen.classList.add('hide');
+
+    setTimeout(() => {
+      cakeScreen.style.display = 'none';
+      app.classList.add('show');
+      updateNavigation();
+      newPuzzle();
+    }, 550);
+  }, 650);
+}
+
+candleButton.addEventListener('pointerup', blowCandle);
+
+/* ПЕРЕХОДЫ */
+
+function showScreen(id) {
+  if (transitionLock) return;
+
+  const next = document.getElementById(id);
+  const current = document.querySelector('.screen.active');
+
+  if (!next || next === current) return;
+
+  transitionLock = true;
+
+  if (current) {
+    current.classList.remove('active', 'entering');
+    current.classList.add('leaving');
+  }
+
+  next.classList.remove('leaving');
+  next.classList.add('active', 'entering');
+
+  updateNavigation();
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  setTimeout(() => {
+    if (current) current.classList.remove('leaving');
+    next.classList.remove('entering');
+    transitionLock = false;
+  }, 500);
+}
+
+/* МОБИЛЬНАЯ НАВИГАЦИЯ */
+
+function updateNavigation() {
+  const active = document.querySelector('.screen.active');
+  if (!active) return;
+
+  const id = active.id;
+
+  document.getElementById('navHome').classList.toggle('current', id === 'home');
+  document.getElementById('navGame').classList.toggle('current', id === 'game');
+  document.getElementById('navBack').disabled = id === 'home';
+}
+
+function mobileBack() {
+  const active = document.querySelector('.screen.active');
+  if (active && active.id !== 'home') showScreen('home');
+}
+
+/* ТАЙМЕРЫ */
+
+function formatDuration(startDate) {
+  const diff = Math.max(0, Date.now() - startDate.getTime());
+  const seconds = Math.floor(diff / 1000);
+
+  const days = Math.floor(seconds / 86400);
+  const hours = Math.floor(seconds % 86400 / 3600);
+  const minutes = Math.floor(seconds % 3600 / 60);
+  const secs = seconds % 60;
+
+  return `${days} дн. ${hours} ч. ${minutes} мин. ${secs} сек.`;
+}
+
+function updateTimers() {
+  document.getElementById('timerDate1').textContent =
+    formatDuration(new Date(2025, 3, 24));
+
+  document.getElementById('timerDate2').textContent =
+    formatDuration(new Date(2025, 1, 12));
+}
+
+updateTimers();
+setInterval(updateTimers, 1000);
+
+/* СЕКРЕТНОЕ СЕРДЦЕ */
+
+function triggerLove() {
+  if (loveTriggered) return;
+  loveTriggered = true;
+
+  document.getElementById('loveBtn').style.display = 'none';
+
+  const heart = document.getElementById('heartTriggerBox');
+  heart.style.display = 'block';
+}
+
+function explodeHeart() {
+  const secret = document.getElementById('secretMessage');
+  secret.style.display = 'block';
+}
+
+/* ПАЗЛ */
+
+const cakeSvg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+<rect width="300" height="300" rx="24" fill="#f5fbef"/>
+<circle cx="36" cy="38" r="5" fill="#f3a6b8"/>
+<circle cx="260" cy="52" r="6" fill="#a8d4b2"/>
+<ellipse cx="150" cy="244" rx="112" ry="17" fill="#d9e9d8"/>
+<path d="M40 143 Q40 132 53 132 H247 Q260 132 260 145 V221 Q260 235 245 235 H55 Q40 235 40 221Z" fill="#dff2e6" stroke="#477b61" stroke-width="4"/>
+<path d="M40 150 Q60 162 80 150 Q100 165 120 150 Q140 164 160 150 Q180 165 200 150 Q230 164 260 150 V172 Q245 184 230 172 Q210 188 190 172 Q170 188 150 172 Q130 188 110 172 Q90 188 70 172 Q52 184 40 172Z" fill="#a8d4b2" stroke="#477b61" stroke-width="2"/>
+<path d="M62 126 Q62 91 88 91 H212 Q238 91 238 126 V153 H62Z" fill="#fff1f4" stroke="#477b61" stroke-width="4"/>
+<path d="M62 128 Q82 139 102 128 Q122 142 142 128 Q162 142 182 128 Q202 142 222 128 Q230 133 238 128 V148 Q222 160 207 148 Q187 164 167 148 Q147 164 127 148 Q107 164 87 148 Q72 158 62 148Z" fill="#f3a6b8" stroke="#d97d98" stroke-width="2"/>
+<path d="M144 91 V35 Q144 27 150 27 Q156 27 156 35 V91" fill="#dff2e6" stroke="#477b61" stroke-width="3"/>
+<path d="M150 28 Q132 12 150 2 Q168 12 150 28Z" fill="#ffbf55" stroke="#e99a35" stroke-width="2"/>
+<circle cx="100" cy="112" r="7" fill="#f27b9b"/>
+<circle cx="200" cy="112" r="7" fill="#80b28c"/>
+<path d="M120 205 Q150 184 180 205" fill="none" stroke="#477b61" stroke-width="4" stroke-linecap="round"/>
+<path d="M150 198 C130 180 115 205 150 225 C185 205 170 180 150 198Z" fill="#f27b9b" stroke="#d94f7a" stroke-width="2"/>
+</svg>`;
+
+const cakeImage = 'url("data:image/svg+xml;charset=UTF-8,' +
+  encodeURIComponent(cakeSvg) + '")';
+
+function newPuzzle() {
+  moves = 0;
+  selectedTile = null;
+  tiles = [...solved];
+
+  for (let i = 0; i < 80; i++) {
+    const a = Math.floor(Math.random() * 9);
+    const b = Math.floor(Math.random() * 9);
+    [tiles[a], tiles[b]] = [tiles[b], tiles[a]];
+  }
+
+  if (tiles.every((v, i) => v === i)) {
+    [tiles[0], tiles[1]] = [tiles[1], tiles[0]];
+  }
+
+  document.getElementById('puzzlePlay').style.display = 'block';
+  document.getElementById('puzzleWin').style.display = 'none';
+  document.getElementById('moves').textContent = '0';
+  document.getElementById('gameMessage').textContent =
+    'Найди каждой части своё место!';
+
+  renderPuzzle();
+  updatePuzzleStats();
+}
+
+function renderPuzzle() {
+  const board = document.getElementById('puzzleBoard');
+  board.innerHTML = '';
+
+  tiles.forEach((piece, index) => {
+    const tile = document.createElement('button');
+    tile.type = 'button';
+    tile.className = 'puzzle-tile';
+
+    const row = Math.floor(piece / 3);
+    const col = piece % 3;
+
+    tile.style.backgroundImage = cakeImage;
+    tile.style.backgroundPosition =
+      `${col * 50}% ${row * 50}%`;
+
+    if (selectedTile === index) {
+      tile.classList.add('selected');
+    }
+
+    tile.addEventListener('click', () => selectTile(index));
+    board.appendChild(tile);
+  });
+}
+
+function selectTile(index) {
+  if (selectedTile === null) {
+    selectedTile = index;
+    renderPuzzle();
+    return;
+  }
+
+  if (selectedTile === index) {
+    selectedTile = null;
+    renderPuzzle();
+    return;
+  }
+
+  [tiles[selectedTile], tiles[index]] =
+    [tiles[index], tiles[selectedTile]];
+
+  selectedTile = null;
+  moves++;
+
+  document.getElementById('moves').textContent = moves;
+
+  renderPuzzle();
+  updatePuzzleStats();
+
+  if (tiles.every((value, i) => value === solved[i])) {
+    winPuzzle();
+  }
+}
+
+function updatePuzzleStats() {
+  const correct = tiles.filter((value, index) => value === index).length;
+  document.getElementById('placed').textContent = `${correct}/9`;
+}
+
+function winPuzzle() {
+  document.getElementById('puzzlePlay').style.display = 'none';
+  document.getElementById('puzzleWin').style.display = 'block';
+}
+
+updateNavigation();
+</script>
+
+</body>
+</html>
